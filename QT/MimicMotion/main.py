@@ -12,11 +12,9 @@ class Thread(QThread):
     def __init__(self, parent=None):
         QThread.__init__(self, parent)
         self.status = True
-        # self.mp_hands = mp.solutions.hands.Hands()
-        # self.mp_drawing = mp.solutions.drawing_utils
         self.mp_hands = mp.solutions.hands.Hands(
             static_image_mode=False,
-            max_num_hands=1,  # Adjust as needed
+            max_num_hands=1,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5,
         )
