@@ -43,7 +43,28 @@ class MainWindow(QMainWindow):
             and self._camera.error() == QCamera.Error.NoError
         ):
             self._capture_session.setVideoOutput(self._camera_viewfinder)
+
+            # Connect the slot function to the imageCaptured signal
+            self._image_capture.imageCaptured.connect(self.process_and_display_frame)
             self._camera.start()
+
+    def process_and_display_frame(self, image):
+        # Perform your processing on the captured image here
+        processed_image = self.process_image(image)
+
+        # Display the processed image on the screen
+        self.display_image(processed_image)
+
+    def process_image(self, image):
+        # Placeholder for image processing, you can replace this with your own logic
+        # For example, convert the image to grayscale
+        gray_image = image.convertToFormat(QImage.Format.Format_Grayscale8)
+        return gray_image
+
+    def display_image(self, image):
+        # Convert QImage to QPixmap and set it to the QLabel
+        pixmap = QPixmap.fromImage(image)
+        self._camera_viewfinder.setPixmap(pixmap)
 
     def closeEvent(self, event):
         super().closeEvent(event)

@@ -1,22 +1,9 @@
-import os
 import sys
-
-import cv2
 from PySide6.QtCore import Qt, QThread, Signal, Slot
 from PySide6.QtGui import QImage, QPixmap
-from PySide6.QtWidgets import (
-    QApplication,
-    QComboBox,
-    QGroupBox,
-    QHBoxLayout,
-    QLabel,
-    QMainWindow,
-    QSizePolicy,
-)
+from PySide6.QtWidgets import QApplication, QLabel, QMainWindow
 
-
-"""This example uses the video from a  webcam to apply pattern
-detection from the OpenCV module. e.g.: face, eyes, body, etc."""
+import cv2
 
 
 class Thread(QThread):
@@ -26,30 +13,32 @@ class Thread(QThread):
         QThread.__init__(self, parent)
         self.trained_file = None
         self.status = True
-        self.cap = True
-
-    def set_file(self, fname):
-        # The data comes with the 'opencv-python' module
-        self.trained_file = os.path.join(cv2.data.haarcascades, fname)
 
     def run(self):
-        self.cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0)
+
         while self.status:
-            _, frame = self.cap.read()
+            ret, frame = cap.read()
+            if not ret:
+                continue
 
             color_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             h, w, ch = color_frame.shape
-            img = QImage(color_frame.data, w, h, ch * w, QImage.Format_RGB888)
+            img = QImage(
+                color_frame.data, w, h, ch * w, QImage.Format.Format_RGB888
+            ).scaled(640, 480, Qt.AspectRatioMode.KeepAspectRatio)
 
             self.updateFrame.emit(img)
+
+        cap.release()
         sys.exit(-1)
 
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Patterns detection")
+        self.setWindowTitle("Gesture Control")
         self.setGeometry(0, 0, 640, 480)
 
         self.label = QLabel(self)
@@ -59,15 +48,9 @@ class Window(QMainWindow):
         self.th.finished.connect(self.close)
         self.th.updateFrame.connect(self.setImage)
 
-        self.group_model = QGroupBox("Trained model")
-        self.group_model.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        self.start()
 
-        self.combobox = QComboBox()
-        for xml_file in os.listdir(cv2.data.haarcascades):
-            if xml_file.endswith(".xml"):
-                self.combobox.addItem(xml_file)
-
-        self.th.set_file(self.combobox.currentText())
+    def start(self):
         self.th.start()
 
     @Slot(QImage)
