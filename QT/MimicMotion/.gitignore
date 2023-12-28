@@ -1,0 +1,5 @@
+*.pyproject
+.flake8
+venv\
+venv/
+venv\
