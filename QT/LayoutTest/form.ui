@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1834</width>
-    <height>929</height>
+    <width>1446</width>
+    <height>942</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,7 +32,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,8">
     <property name="spacing">
      <number>4</number>
     </property>
@@ -52,7 +52,7 @@
      <number>4</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="SettingsLayout">
       <property name="spacing">
        <number>2</number>
       </property>
@@ -60,7 +60,7 @@
        <enum>QLayout::SetMinimumSize</enum>
       </property>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="ConnectionStatusLabel">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -78,7 +78,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="IPAddrLineEdit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="ConnectButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -125,7 +125,7 @@
        </widget>
       </item>
       <item>
-       <widget class="Line" name="line">
+       <widget class="Line" name="LEDLine">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -138,7 +138,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="LEDColourLabel">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -156,7 +156,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="RainbowRadioButton">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -169,7 +169,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="ReactiveRadioButton">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -182,7 +182,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_3">
+       <widget class="QRadioButton" name="CustomRadioButton">
         <property name="maximumSize">
          <size>
           <width>105</width>
@@ -195,7 +195,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="ColourButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -218,23 +218,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>2</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="LEDBrightnessLabel">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -255,7 +239,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="horizontalSlider">
+       <widget class="QSlider" name="BrightnessSlider">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -268,7 +252,7 @@
        </widget>
       </item>
       <item>
-       <widget class="Line" name="line_2">
+       <widget class="Line" name="LogLine">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -281,7 +265,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="LogLabel">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -299,7 +283,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QScrollArea" name="scrollArea">
+       <widget class="QScrollArea" name="LogScrollArea">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -358,7 +342,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
+       <spacer name="SettingsVerticleSpacer">
         <property name="maximumSize">
          <size>
           <width>240</width>
@@ -379,39 +363,48 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMaximumSize</enum>
+     <widget class="QTabWidget" name="ViewsTabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <item>
-       <widget class="QMdiArea" name="mdiArea">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="sizeIncrement">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="tabShape">
-         <enum>QTabWidget::Rounded</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="WebcamTab">
+       <attribute name="title">
+        <string>Webcam</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="RemoteTab">
+       <attribute name="title">
+        <string>Robot Cam</string>
+       </attribute>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -420,7 +413,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1834</width>
+     <width>1446</width>
      <height>22</height>
     </rect>
    </property>

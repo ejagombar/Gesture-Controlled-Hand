@@ -97,6 +97,7 @@ QTabBar::tab {
   border-bottom: none;
   color: #b9b9b9;
   padding-left: 5px;
+  margin-left: 5px;
   padding-right: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -341,4 +342,25 @@ QGroupBox::title {
   subcontrol-origin: margin;
   subcontrol-position: top left;
   margin-bottom: 6px;
+}
+
+QSlider {
+  background: transparent;
+  height: 16px;
+}
+
+QSlider::groove:horizontal {
+  background: #282c34;
+  border: 1px solid #464c55;
+  height: 10px;
+  border-radius: 6px;
+}
+
+QSlider::handle:horizontal {
+  background: #464c55;
+  border: 1px solid #464c55;
+  width: 14px;
+  margin-top: -3px;
+  margin-bottom: -3px;
+  border-radius: 8px;
 }
