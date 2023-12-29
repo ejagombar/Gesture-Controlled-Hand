@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    with open("OneLight.qss", "r") as f:
+    with open("OneDark.qss", "r") as f:
         _style = f.read()
         app.setStyleSheet(_style)
 
