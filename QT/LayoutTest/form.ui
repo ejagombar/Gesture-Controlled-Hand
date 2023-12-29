@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2322</width>
-    <height>915</height>
+    <width>1834</width>
+    <height>929</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -66,6 +66,11 @@
           <width>240</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Status: Disconnected</string>
@@ -140,8 +145,13 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>LED Colour Options</string>
+         <string>LED Colour</string>
         </property>
        </widget>
       </item>
@@ -172,71 +182,90 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>2</number>
+       <widget class="QRadioButton" name="radioButton_3">
+        <property name="maximumSize">
+         <size>
+          <width>105</width>
+          <height>16777215</height>
+         </size>
         </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMaximumSize</enum>
+        <property name="text">
+         <string>Custom Colour</string>
         </property>
-        <property name="topMargin">
-         <number>0</number>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <item>
-         <widget class="QRadioButton" name="radioButton_3">
-          <property name="maximumSize">
-           <size>
-            <width>105</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Custom Colour</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="toolButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>54</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Choose</string>
-          </property>
-          <property name="toolButtonStyle">
-           <enum>Qt::ToolButtonTextOnly</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="maximumSize">
-           <size>
-            <width>75</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+        <property name="maximumSize">
+         <size>
+          <width>240</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Select Colour</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../../../Desktop/Icon.png</normaloff>../../../../../Desktop/Icon.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>2</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="maximumSize">
+         <size>
+          <width>240</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>LED Brightness</string>
+        </property>
+        <property name="indent">
+         <number>-4</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSlider" name="horizontalSlider">
+        <property name="maximumSize">
+         <size>
+          <width>240</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="Line" name="line_2">
@@ -259,6 +288,11 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Log:</string>
         </property>
@@ -267,10 +301,16 @@
       <item>
        <widget class="QScrollArea" name="scrollArea">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
         </property>
         <property name="maximumSize">
          <size>
@@ -282,13 +322,13 @@
          <enum>QFrame::Plain</enum>
         </property>
         <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOn</enum>
+         <enum>Qt::ScrollBarAsNeeded</enum>
         </property>
         <property name="horizontalScrollBarPolicy">
          <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
         <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
         </property>
         <property name="widgetResizable">
          <bool>true</bool>
@@ -298,47 +338,22 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>224</width>
-           <height>333</height>
+           <width>16</width>
+           <height>16</height>
           </rect>
          </property>
-         <widget class="QLabel" name="label_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>0</y>
-            <width>151</width>
-            <height>351</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>151</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string> asdfsad;lf kjsad asd;lfkj asd;flkj asd;fljhasd f;lkasd kjh f;lsdakj fasd;lkj fads;lkf jads;lkfj ads;l kfjdas;lkf jads;lkfj asd;lkkjhweqlktj hsadf;kljghdfslkhjb gfd sakjujgh fds ajkhf gbadsjhkfb ls sdfds sda asdfljhk sdkfjh sad;ljf sda;lkjfsdakjfhsdakjhlfgsadjhfgsdalkjhfasdkljfbhawelkjhgbvciuc saakdjufhsadlkjfhr laskdjfh asdljhgkfsdalkjf hasdvl ffhsg kjhs dgfjhka sgfhjg dsajk habfa sejhkb fgsadjlh ffdsalhg sdlahkj fjaslkdhbf lhhgsdf aljkhag fh fhs fafs ahjkg sa dgjlasdh gfjhbwelj hfgsa djlkh f kjhvas db lkjhdb lj  lkjhflkjhsdfkjlhs lsdkfjha fjhbgvsadf jhbvkfsdjkhbvsdanb vsd fsd fsd f sda fasd  fasd f  g df gdf gdfs g fd</string>
-          </property>
-          <property name="scaledContents">
-           <bool>false</bool>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-          <property name="margin">
-           <number>1</number>
-          </property>
-          <property name="openExternalLinks">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
         </widget>
        </widget>
       </item>
@@ -388,6 +403,12 @@
           <height>0</height>
          </size>
         </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
        </widget>
       </item>
      </layout>
@@ -399,14 +420,22 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2322</width>
-     <height>21</height>
+     <width>1834</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuTheme">
+     <property name="title">
+      <string>Theme</string>
+     </property>
+     <addaction name="actionOneDark"/>
+     <addaction name="actionOneLight"/>
+    </widget>
+    <addaction name="menuTheme"/>
     <addaction name="actionAbout"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -476,6 +505,16 @@
   <action name="actionDefault">
    <property name="text">
     <string>Default</string>
+   </property>
+  </action>
+  <action name="actionOneDark">
+   <property name="text">
+    <string>OneDark</string>
+   </property>
+  </action>
+  <action name="actionOneLight">
+   <property name="text">
+    <string>OneLight</string>
    </property>
   </action>
  </widget>

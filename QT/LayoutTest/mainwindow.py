@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
+import qdarkstyle
 
 from PySide6.QtWidgets import QApplication, QMainWindow
 
@@ -17,7 +18,16 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+
     app = QApplication(sys.argv)
+
+    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
+    # app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyside6'))
+
+    with open("OneLight.qss", "r") as f:
+        _style = f.read()
+        app.setStyleSheet(_style)
+
     widget = MainWindow()
     widget.show()
     sys.exit(app.exec())
