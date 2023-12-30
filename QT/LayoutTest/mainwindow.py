@@ -8,9 +8,7 @@ from WebCamView import CamThread
 from ui_form import Ui_MainWindow
 
 # Important:
-# You need to run the following command to generate the ui_form.py file
-#     pyside6-uic form.ui -o ui_form.py, or
-#     pyside2-uic form.ui -o ui_form.py
+# pyside6-designer form.ui && pyside6-uic form.ui -o ui_form.py
 
 
 class MainWindow(QMainWindow):
@@ -30,7 +28,7 @@ class MainWindow(QMainWindow):
 
     @Slot(QImage)
     def setImage(self, image):
-        scaledImg = image.scaled(640 * 2, 480 * 2, Qt.AspectRatioMode.KeepAspectRatio)
+        scaledImg = image.scaled(self.ui.WebcamTab.width(), self.ui.WebcamTab.height(), Qt.AspectRatioMode.KeepAspectRatio)
         self.ui.WebcamLabel.setPixmap(QPixmap.fromImage(scaledImg))
 
 

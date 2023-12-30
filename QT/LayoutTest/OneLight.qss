@@ -1,7 +1,4 @@
-
 /* OneLight - Light version of OneDark */
-/* Author: Your Name */
-/* MIT License */
 
 QWidget,
 QToolBar,
