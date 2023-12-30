@@ -398,6 +398,28 @@
        <attribute name="title">
         <string>Webcam</string>
        </attribute>
+       <widget class="QLabel" name="WebcamLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>1241</width>
+          <height>841</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="RemoteTab">
        <attribute name="title">
