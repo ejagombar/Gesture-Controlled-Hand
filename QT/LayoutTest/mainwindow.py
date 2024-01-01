@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
     def setImage(self, image):
         scaledImg = image.scaled(self.ui.WebcamTab.width(), self.ui.WebcamTab.height(), Qt.AspectRatioMode.KeepAspectRatio)
         self.ui.WebcamLabel.setPixmap(QPixmap.fromImage(scaledImg))
+        self.ui.WebcamLabel.setFixedSize(int(self.ui.WebcamTab.width()*0.98), int(self.ui.WebcamTab.height()*0.98))
 
 
 if __name__ == "__main__":
