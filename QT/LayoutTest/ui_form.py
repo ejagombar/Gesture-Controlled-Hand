@@ -48,10 +48,16 @@ class Ui_MainWindow(object):
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionDefault = QAction(MainWindow)
         self.actionDefault.setObjectName(u"actionDefault")
+        self.actionDefault.setCheckable(True)
         self.actionOneDark = QAction(MainWindow)
         self.actionOneDark.setObjectName(u"actionOneDark")
+        self.actionOneDark.setCheckable(True)
         self.actionOneLight = QAction(MainWindow)
         self.actionOneLight.setObjectName(u"actionOneLight")
+        self.actionOneLight.setCheckable(True)
+        self.actionDefault2 = QAction(MainWindow)
+        self.actionDefault2.setObjectName(u"actionDefault2")
+        self.actionDefault2.setCheckable(True)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
@@ -72,8 +78,9 @@ class Ui_MainWindow(object):
         self.ConnectionStatusLabel.setObjectName(u"ConnectionStatusLabel")
         self.ConnectionStatusLabel.setMaximumSize(QSize(240, 16777215))
         font = QFont()
-        font.setPointSize(10)
+        font.setPointSize(11)
         self.ConnectionStatusLabel.setFont(font)
+        self.ConnectionStatusLabel.setTextFormat(Qt.PlainText)
 
         self.SettingsLayout.addWidget(self.ConnectionStatusLabel)
 
@@ -130,6 +137,10 @@ class Ui_MainWindow(object):
 
         self.SettingsLayout.addWidget(self.CustomRadioButton)
 
+        self.verticalSpacer = QSpacerItem(20, 2, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.SettingsLayout.addItem(self.verticalSpacer)
+
         self.ColourButton = QPushButton(self.centralwidget)
         self.ColourButton.setObjectName(u"ColourButton")
         sizePolicy1.setHeightForWidth(self.ColourButton.sizePolicy().hasHeightForWidth())
@@ -140,6 +151,10 @@ class Ui_MainWindow(object):
         self.ColourButton.setIcon(icon)
 
         self.SettingsLayout.addWidget(self.ColourButton)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 2, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.SettingsLayout.addItem(self.verticalSpacer_2)
 
         self.LEDBrightnessLabel = QLabel(self.centralwidget)
         self.LEDBrightnessLabel.setObjectName(u"LEDBrightnessLabel")
@@ -232,7 +247,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.ViewsTabWidget)
 
         self.horizontalLayout_2.setStretch(0, 1)
-        self.horizontalLayout_2.setStretch(1, 8)
+        self.horizontalLayout_2.setStretch(1, 6)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -284,6 +299,7 @@ class Ui_MainWindow(object):
         self.actionDefault.setText(QCoreApplication.translate("MainWindow", u"Default", None))
         self.actionOneDark.setText(QCoreApplication.translate("MainWindow", u"OneDark", None))
         self.actionOneLight.setText(QCoreApplication.translate("MainWindow", u"OneLight", None))
+        self.actionDefault2.setText(QCoreApplication.translate("MainWindow", u"Default", None))
         self.ConnectionStatusLabel.setText(QCoreApplication.translate("MainWindow", u"Status: Disconnected", None))
         self.IPAddrLineEdit.setInputMask("")
         self.IPAddrLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"IP Address", u"IP Address"))
@@ -293,7 +309,7 @@ class Ui_MainWindow(object):
         self.ReactiveRadioButton.setText(QCoreApplication.translate("MainWindow", u"Reactive", None))
         self.CustomRadioButton.setText(QCoreApplication.translate("MainWindow", u"Custom Colour", None))
         self.ColourButton.setText(QCoreApplication.translate("MainWindow", u"Select Colour", None))
-        self.LEDBrightnessLabel.setText(QCoreApplication.translate("MainWindow", u"LED Brightness", None))
+        self.LEDBrightnessLabel.setText(QCoreApplication.translate("MainWindow", u"LED Brightness: 25%", None))
         self.LogLabel.setText(QCoreApplication.translate("MainWindow", u"Log:", None))
         self.WebcamLabel.setText("")
         self.ViewsTabWidget.setTabText(self.ViewsTabWidget.indexOf(self.WebcamTab), QCoreApplication.translate("MainWindow", u"Webcam", None))

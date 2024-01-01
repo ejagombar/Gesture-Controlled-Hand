@@ -56,7 +56,7 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-  background-color: #282c34;
+  background-color: #464c55;
   color: white;
 }
 
@@ -353,7 +353,7 @@ QSlider::groove:horizontal {
   background: #282c34;
   border: 1px solid #464c55;
   height: 10px;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 QSlider::handle:horizontal {
