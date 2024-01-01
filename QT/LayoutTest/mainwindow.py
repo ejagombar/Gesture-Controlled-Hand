@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtCore import Qt, Slot
-from PySide6.QtGui import QImage, QPixmap, QIcon, QPainter, QColor
+from PySide6.QtGui import QImage, QPixmap, QIcon, QColor
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
 from WebCamView import CamThread
 
@@ -27,12 +27,12 @@ class MainWindow(QMainWindow):
         self.th.start()
         self.ui.ColourButton.clicked.connect(self.show_color_picker)
 
-        color = QColor("green")  # Change the color as needed
-        self.ui.ColourButton.setIcon(self.create_color_icon(color, self.ui.ColourButton.iconSize()))
-
         self.ui.actionOneDark.triggered.connect(self.set_dark_theme)
         self.ui.actionOneLight.triggered.connect(self.set_light_theme)
+        self.ui.BrightnessSlider.valueChanged.connect(self.changeBrightness)
         self.ui.actionOneLight.setChecked(True)  # Default Theme
+        self.ui.RainbowRadioButton.setChecked(True)
+        self.ui.BrightnessSlider.setValue(25)
 
     def set_dark_theme(self):
         with open("OneDark.qss", "r") as f:
@@ -51,14 +51,16 @@ class MainWindow(QMainWindow):
     def show_color_picker(self):
         color_dialog = QColorDialog(self)
         color = color_dialog.getColor()
-
-        if color.isValid():
-            print("Selected color:", color.name())
+        self.ui.ColourButton.setIcon(self.create_color_icon(color, self.ui.ColourButton.iconSize()))
 
     def create_color_icon(self, color, size):
         pixmap = QPixmap(size)
         pixmap.fill(color)
         return QIcon(pixmap)
+
+    def changeBrightness(self):
+        brightness = self.ui.BrightnessSlider.value()
+        self.ui.LEDBrightnessLabel.setText("LED Brightness: " + str(brightness) + "%")
 
     @Slot(QImage)
     def setImage(self, image):

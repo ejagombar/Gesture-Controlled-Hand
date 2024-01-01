@@ -230,10 +230,6 @@
         <property name="text">
          <string>Select Colour</string>
         </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../../../../Desktop/Icon.png</normaloff>../../../../../Desktop/Icon.png</iconset>
-        </property>
        </widget>
       </item>
       <item>
@@ -280,6 +276,15 @@
           <width>240</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="sliderPosition">
+         <number>25</number>
+        </property>
+        <property name="tracking">
+         <bool>true</bool>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

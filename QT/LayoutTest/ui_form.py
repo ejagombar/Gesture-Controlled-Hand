@@ -146,9 +146,6 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.ColourButton.sizePolicy().hasHeightForWidth())
         self.ColourButton.setSizePolicy(sizePolicy1)
         self.ColourButton.setMaximumSize(QSize(240, 16777215))
-        icon = QIcon()
-        icon.addFile(u"../../../../../Desktop/Icon.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.ColourButton.setIcon(icon)
 
         self.SettingsLayout.addWidget(self.ColourButton)
 
@@ -167,6 +164,9 @@ class Ui_MainWindow(object):
         self.BrightnessSlider = QSlider(self.centralwidget)
         self.BrightnessSlider.setObjectName(u"BrightnessSlider")
         self.BrightnessSlider.setMaximumSize(QSize(240, 16777215))
+        self.BrightnessSlider.setMaximum(100)
+        self.BrightnessSlider.setSliderPosition(25)
+        self.BrightnessSlider.setTracking(True)
         self.BrightnessSlider.setOrientation(Qt.Horizontal)
 
         self.SettingsLayout.addWidget(self.BrightnessSlider)
