@@ -28,6 +28,7 @@ class CamThread(QThread):
                 continue
 
             color_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            color_frame = cv2.flip(color_frame, 1)
 
             HAND_PALM_CONNECTIONS = ((0, 1), (1, 5), (9, 13), (13, 17), (5, 9), (0, 17))
             HAND_THUMB_CONNECTIONS = ((1, 2), (2, 3), (3, 4))
