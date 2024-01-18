@@ -1,10 +1,11 @@
 import sys
 
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, Signal
 from PySide6.QtGui import QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
 from PySide6.QtSerialPort import QSerialPort
 from WebCamView import CamThread
+import time
 
 from ui_form import Ui_MainWindow
 
@@ -18,21 +19,11 @@ def send_data(serial_port):
     serial_port.write(data)
 
 
-def setup_serial_port():
-    port_name = "COM7"
-    serial_port = QSerialPort()
-    serial_port.setPortName(port_name)
-
-    if serial_port.open(QSerialPort.OpenModeFlag.WriteOnly):
-        print(f"Serial port {port_name} opened successfully.")
-        serial_port.setBaudRate(QSerialPort.BaudRate.Baud115200)
-        return serial_port
-    else:
-        print(f"Failed to open serial port {port_name}.")
-        return None
 
 
 class MainWindow(QMainWindow):
+    sendSignal = Signal(int, int, int, int)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
@@ -41,8 +32,41 @@ class MainWindow(QMainWindow):
         self.th = CamThread(self)
         self.th.finished.connect(self.close)
         self.th.updateFrame.connect(self.setImage)
+        self.th.fingerPositions.connect(self.sendPositionMessage)
+
+        self.serial_port = None
+        self.last_executed = 0
+        self.sendSignal.connect(self.sendPositionMessage)
+
+        self.ui.IPAddrLineEdit.setText("COM7")
 
         self.start()
+
+
+    @Slot(int, int, int, int)
+    def sendPositionMessage(self,index,middle,ring,pinky):
+        current_time = time.time()
+        if current_time - self.last_executed < 0.5:
+            return
+        self.last_executed = current_time
+        if self.serial_port is not None:
+            message = f":50,50,{index},{middle},{ring},{pinky},[999,999,999,50]"
+            self.serial_port.write(message.encode())
+            print(message)
+
+    def onConnectButtonClicked(self):
+        port_name = self.ui.IPAddrLineEdit.text()
+        self.setup_serial_port(port_name)
+
+    def setup_serial_port(self, port_name):
+        self.serial_port = QSerialPort()
+        self.serial_port.setPortName(port_name)
+
+        if self.serial_port.open(QSerialPort.OpenModeFlag.WriteOnly):
+            print(f"Serial port {port_name} opened successfully.")
+            self.serial_port.setBaudRate(QSerialPort.BaudRate.Baud115200)
+        else:
+            print(f"Failed to open serial port {port_name}.")
 
     def start(self):
         self.th.start()
@@ -52,7 +76,7 @@ class MainWindow(QMainWindow):
         self.ui.actionOneLight.triggered.connect(self.set_light_theme)
         self.ui.BrightnessSlider.valueChanged.connect(self.changeBrightness)
 
-        self.ui.ConnectButton.clicked.connect(setup_serial_port)
+        self.ui.ConnectButton.clicked.connect(self.onConnectButtonClicked)
 
         self.ui.actionOneLight.setChecked(True)  # Default Theme
         self.ui.RainbowRadioButton.setChecked(True)
