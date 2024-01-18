@@ -3,7 +3,7 @@ import sys
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
-from PySide6.QtSerialPort import QSerialPort, QSerialPortInfo
+from PySide6.QtSerialPort import QSerialPort
 from WebCamView import CamThread
 
 from ui_form import Ui_MainWindow
@@ -62,14 +62,14 @@ class MainWindow(QMainWindow):
         self.ui.actionShow_3D_Visualisation.setEnabled(False)
 
     def set_dark_theme(self):
-        with open("OneDark.qss", "r") as f:
+        with open("./Themes/OneDark.qss", "r") as f:
             _style = f.read()
             self.setStyleSheet(_style)
         self.ui.actionOneLight.setChecked(False)
         self.ui.actionOneDark.setChecked(True)
 
     def set_light_theme(self):
-        with open("OneLight.qss", "r") as f:
+        with open("./Themes/OneLight.qss", "r") as f:
             _style = f.read()
             self.setStyleSheet(_style)
         self.ui.actionOneDark.setChecked(False)
@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    with open("OneLight.qss", "r") as f:
+    with open("./Themes/OneLight.qss", "r") as f:
         _style = f.read()
         app.setStyleSheet(_style)
 
