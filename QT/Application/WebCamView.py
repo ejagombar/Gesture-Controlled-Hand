@@ -3,7 +3,7 @@ import cv2
 import mediapipe as mp
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtGui import QImage
-
+import numpy as np
 
 class CamThread(QThread):
     updateFrame = Signal(QImage)
@@ -22,6 +22,9 @@ class CamThread(QThread):
 
     def calcDistance(self, point1, point2):
         return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2 + (point1.z - point2.z) ** 2
+
+    def calcDistance2(self, point1, point2):
+        return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2
 
     def mapValue (self, value, min1, max1, min2, max2):
         return (value - min1) * (max2 - min2) / (max1 - min1) + min2
@@ -81,12 +84,20 @@ class CamThread(QThread):
                 ringdistance = self.calcDistance(points.landmark[16], points.landmark[13])
                 pinkydistance = self.calcDistance(points.landmark[20], points.landmark[17])
 
-                indexPos = self.mapValue(indexdistance, min, max, 180, 0)
+                
+                indexPos = self.mapValue(indexdistance, min, max, 0, 100)
                 middlePos = self.mapValue(middledistance, min, max, 180, 0)
                 ringPos = self.mapValue(ringdistance, min, max, 180, 0)
                 pinkyPos = self.mapValue(pinkydistance, min, max, 180, 0)
+                tip = np.array([points.landmark[8].x, points.landmark[8].y, points.landmark[8].z])
+                mcp = np.array([points.landmark[5].x, points.landmark[5].y, points.landmark[5].z])
 
-                self.fingerPositions.emit(indexPos, middlePos, ringPos, pinkyPos)
+                distance = np.linalg.norm(tip - mcp) * 400
+                calculatedVal = 180 - ((distance + indexPos)/2) * 2
+
+
+                self.fingerPositions.emit(calculatedVal, middlePos, ringPos, pinkyPos)
+                self.fingerPositions.emit(calculatedVal, 0, 0, 0)
 
             h, w, ch = color_frame.shape
             img = QImage(color_frame.data, w, h, ch * w, QImage.Format.Format_RGB888)
