@@ -2,8 +2,7 @@
 .flake8
 venv\
 venv/
-Genv/
 Genv\
-venv\
+Genv/
 __pycache__\
 __pycache__/
