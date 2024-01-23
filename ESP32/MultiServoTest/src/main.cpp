@@ -19,6 +19,7 @@ int pos = 0;
 int gHue= 0;    
 int values[6] = {46,90,90,90,90,90}; // Array to store servo motor values   
 int hslbColours[4]; 
+bool setupRainbow = false;
 
 void setup() {
   Serial.begin(115200); // Set the baud rate to 9600 bps
@@ -36,12 +37,17 @@ void loop() {
   myservo.write(ring, values[4]);
   myservo.write(pinky, values[5]);
 
-  if (hslbColours[0] > 360 && hslbColours[1] > 255 && hslbColours[2] > 255) {
-    fill_rainbow( leds, NUM_LEDS, gHue, 40);
     EVERY_N_MILLISECONDS( 20 ) { gHue++; }
+
+  if (hslbColours[0] > 360 && hslbColours[1] > 255 && hslbColours[2] > 255) {
+    if (setupRainbow == false) {
+        fill_rainbow( leds, NUM_LEDS, gHue, 40);
+        setupRainbow = true;
+    }
   } else {
     CRGB rgbColor = CHSV(hslbColours[0], hslbColours[1], hslbColours[2]);
     fill_solid(leds, NUM_LEDS, rgbColor);
+    setupRainbow = false;
   }
 
   int brightness = hslbColours[3];
@@ -56,7 +62,7 @@ void loop() {
     // Wait for the colon at the beginning
     while (Serial.peek() != ':') {
       Serial.read(); // Discard any characters until the colon is found
-      delay(10);
+      //delay(10);
     }
     
     // Read the colon
@@ -74,13 +80,13 @@ void loop() {
         if (tmp < 0) {tmp = 0;}
       }
       values[i] = tmp;
-      delay(10);
+      //delay(10);
     }
 
     // Wait for the opening bracket of the color values
     while (Serial.peek() != '[') {
       Serial.read(); // Discard any characters until the opening bracket is found
-      delay(10);
+      //delay(10);
     }
 
     Serial.read(); // read the opening bracket
@@ -88,13 +94,13 @@ void loop() {
     // Read the three hsl color values
     for (int i = 0; i < 4; i++) {
       hslbColours[i] = Serial.parseInt();
-      delay(10);
+      //delay(10);
       
       // Check for the comma (except for the last color value)
       if (i < 3) {
         while (Serial.peek() != ',') {
           Serial.read(); // Discard any characters until the comma is found
-          delay(10);
+          //delay(10);
         }
         // Read the comma
         Serial.read();
