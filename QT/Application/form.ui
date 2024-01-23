@@ -502,7 +502,6 @@
      <property name="title">
       <string>Select Video Device</string>
      </property>
-     <addaction name="actionDefault"/>
     </widget>
     <addaction name="menuSelect_Video_Device"/>
     <addaction name="separator"/>

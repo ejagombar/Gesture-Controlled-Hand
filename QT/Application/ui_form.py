@@ -278,7 +278,6 @@ class Ui_MainWindow(object):
         self.menuOptions.addAction(self.actionShow_Tracking_Mask)
         self.menuOptions.addAction(self.actionShow_3D_Visualisation)
         self.menuOptions.addAction(self.actionShow_Remote_View)
-        self.menuSelect_Video_Device.addAction(self.actionDefault)
 
         self.retranslateUi(MainWindow)
 

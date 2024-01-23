@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt, Slot, Signal
 from PySide6.QtGui import QImage, QPixmap, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
 from PySide6.QtSerialPort import QSerialPort
+from PySide6.QtMultimedia import QMediaDevices
 from WebCamView import CamThread
 import time
 
@@ -19,20 +20,16 @@ def send_data(serial_port):
     serial_port.write(data)
 
 
-
-
 class MainWindow(QMainWindow):
     sendSignal = Signal(int, int, int, int)
+    selectedCamera = Signal(int)
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.th = CamThread(self)
-        self.th.finished.connect(self.close)
-        self.th.updateFrame.connect(self.setImage)
-        self.th.fingerPositions.connect(self.sendPositionMessage)
+        self.camera_index = None
 
         self.serial_port = None
         self.last_executed = 0
@@ -69,7 +66,6 @@ class MainWindow(QMainWindow):
             print(f"Failed to open serial port {port_name}.")
 
     def start(self):
-        self.th.start()
         self.ui.ColourButton.clicked.connect(self.show_color_picker)
 
         self.ui.actionOneDark.triggered.connect(self.set_dark_theme)
@@ -84,6 +80,32 @@ class MainWindow(QMainWindow):
         self.ui.actionShow_Webcam_View.setChecked(True)
         self.ui.actionShow_Tracking_Mask.setChecked(True)
         self.ui.actionShow_3D_Visualisation.setEnabled(False)
+        self.setupAvailableCameras()
+
+
+    def setupAvailableCameras(self):
+        cameras = QMediaDevices.videoInputs()
+        if not cameras:
+            print("No cameras found")
+            return
+        else:
+            for cameraDevice in cameras:
+                index = cameras.index(cameraDevice)
+                if "ir " not in cameraDevice.description().lower():
+                    action = self.ui.menuSelect_Video_Device.addAction(cameraDevice.description())
+                    action.triggered.connect(self.make_set_camera_index(index))
+
+        self.th = CamThread(self)
+        self.th.finished.connect(self.close)
+        self.th.updateFrame.connect(self.setImage)
+        self.th.fingerPositions.connect(self.sendPositionMessage)
+        self.th.start()
+
+    @Slot()
+    def make_set_camera_index(self, index):
+        def set_camera_index():
+            self.camera_index = index
+        return set_camera_index
 
     def set_dark_theme(self):
         with open("./Themes/OneDark.qss", "r") as f:
