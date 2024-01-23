@@ -46,11 +46,11 @@ class MainWindow(QMainWindow):
     @Slot(int, int, int, int)
     def sendPositionMessage(self,index,middle,ring,pinky):
         current_time = time.time()
-        if current_time - self.last_executed < 0.5:
+        if current_time - self.last_executed < 0.05:
             return
         self.last_executed = current_time
         if self.serial_port is not None:
-            message = f":50,50,{index},{middle},{ring},{pinky},[999,999,999,50]"
+            message = f":50,50,{index},100,100,100,[999,999,999,50]"
             self.serial_port.write(message.encode())
             print(message)
 

@@ -29,8 +29,8 @@ class CamThread(QThread):
     def run(self):
         cap = cv2.VideoCapture(0)
 
-        min = 0.0019819382848129986
-        max = 0.045459578144961724
+        max = 0.031145863804658128
+        min = 0.0008954321633240512
 
         while self.status:
             ret, frame = cap.read()
