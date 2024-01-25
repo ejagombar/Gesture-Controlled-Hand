@@ -41,16 +41,15 @@ class MainWindow(QMainWindow):
 
 
     @Slot(int, int, int, int)
-    def sendPositionMessage(self,index,middle,ring,pinky):
+    def sendPositionMessage(self,thumbAngle, thumb, index,middle,ring,pinky):
         current_time = time.time()
         if current_time - self.last_executed < 0.005:
             return
         self.last_executed = current_time
         if self.serial_port is not None:
-            message = f":50,50,{index},{middle},{ring},{pinky},[{index},{index},{index},{index}]"
+            message = f":{thumbAngle},{thumb},{index},{middle},{ring},{pinky},[{index},{index},{index},{index}]"
             self.serial_port.write(message.encode())
-            print(message)
-        print(index,middle,ring,pinky)
+            # print(index,middle,ring,pinky)
 
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()

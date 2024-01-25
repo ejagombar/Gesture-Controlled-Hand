@@ -7,7 +7,7 @@ import numpy as np
 
 class CamThread(QThread):
     updateFrame = Signal(QImage)
-    fingerPositions = Signal(int, int, int, int)
+    fingerPositions = Signal(int,int,int, int, int, int)
 
     def __init__(self, parent=None):
         QThread.__init__(self, parent)
@@ -22,9 +22,25 @@ class CamThread(QThread):
 
     def calcDistance(self, point1, point2):
         return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2 + (point1.z - point2.z) ** 2
+    
+    def sumSquares(self, point1, point2, point3):
+        return point1 ** 2 + point2 ** 2 + point3 ** 2
 
-    def calcDistance2(self, point1, point2):
-        return (point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2
+    def calculate_angle(self, point1, point2, point3):
+        A = np.array(point1) - np.array(point2)
+        B = np.array(point3) - np.array(point2)
+
+        dot_product = np.dot(A, B)
+
+        norm_A = np.linalg.norm(A)
+        norm_B = np.linalg.norm(B)
+
+        cos_angle = dot_product / (norm_A * norm_B)
+
+        angle = np.arccos(cos_angle)
+        angle_degrees = np.degrees(angle)
+
+        return angle_degrees
 
     def mapValue (self, value, min1, max1, min2, max2):
         return (value - min1) * (max2 - min2) / (max1 - min1) + min2
@@ -83,21 +99,32 @@ class CamThread(QThread):
                 middledistance = self.calcDistance(points.landmark[12], points.landmark[9])
                 ringdistance = self.calcDistance(points.landmark[16], points.landmark[13])
                 pinkydistance = self.calcDistance(points.landmark[20], points.landmark[17])
+                thumbdistance = self.calcDistance(points.landmark[4], points.landmark[2])
 
                 
                 indexPos = self.mapValue(indexdistance, min, max, 0, 100)
                 middlePos = self.mapValue(middledistance, min, max, 180, 0)
                 ringPos = self.mapValue(ringdistance, min, max, 180, 0)
                 pinkyPos = self.mapValue(pinkydistance, min, max, 180, 0)
+                thumbPos = self.mapValue(thumbdistance, min, max, 0, 180)
+
                 tip = np.array([points.landmark[8].x, points.landmark[8].y, points.landmark[8].z])
                 mcp = np.array([points.landmark[5].x, points.landmark[5].y, points.landmark[5].z])
 
                 distance = np.linalg.norm(tip - mcp) * 400
                 calculatedVal = 180 - ((distance + indexPos)/2) * 2
 
+                # angle = self.calculate_angle(points.landmark[0], points.landmark[5], points.landmark[6])
+                point1 = [points.landmark[4].x, points.landmark[4].y, points.landmark[4].z]
+                point2 = [points.landmark[1].x, points.landmark[1].y, points.landmark[1].z]
+                point3 = [points.landmark[0].x, points.landmark[0].y, points.landmark[0].z]
+                angle = self.calculate_angle(point1, point2, point3)
 
-                self.fingerPositions.emit(calculatedVal, middlePos, ringPos, pinkyPos)
-                self.fingerPositions.emit(calculatedVal, 0, 0, 0)
+                thumbAngle = self.mapValue(angle, 120, 180, 0, 100)
+
+                # sum = self.sumSquares(indexPos, distance, angle)
+
+                self.fingerPositions.emit(thumbAngle,thumbPos , calculatedVal, middlePos, ringPos, pinkyPos)
 
             h, w, ch = color_frame.shape
             img = QImage(color_frame.data, w, h, ch * w, QImage.Format.Format_RGB888)
