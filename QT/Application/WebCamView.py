@@ -48,8 +48,6 @@ class CamThread(QThread):
     def run(self):
         cap = cv2.VideoCapture(0)
 
-        max = 0.031145863804658128
-        min = 0.0008954321633240512
 
         while self.status:
             ret, frame = cap.read()
@@ -95,36 +93,7 @@ class CamThread(QThread):
                     )
 
                 points = results.multi_hand_landmarks[0]
-                indexdistance = self.calcDistance(points.landmark[8], points.landmark[5])
-                middledistance = self.calcDistance(points.landmark[12], points.landmark[9])
-                ringdistance = self.calcDistance(points.landmark[16], points.landmark[13])
-                pinkydistance = self.calcDistance(points.landmark[20], points.landmark[17])
-                thumbdistance = self.calcDistance(points.landmark[4], points.landmark[2])
-
-                
-                indexPos = self.mapValue(indexdistance, min, max, 0, 100)
-                middlePos = self.mapValue(middledistance, min, max, 180, 0)
-                ringPos = self.mapValue(ringdistance, min, max, 180, 0)
-                pinkyPos = self.mapValue(pinkydistance, min, max, 180, 0)
-                thumbPos = self.mapValue(thumbdistance, min, max, 0, 180)
-
-                tip = np.array([points.landmark[8].x, points.landmark[8].y, points.landmark[8].z])
-                mcp = np.array([points.landmark[5].x, points.landmark[5].y, points.landmark[5].z])
-
-                distance = np.linalg.norm(tip - mcp) * 400
-                calculatedVal = 180 - ((distance + indexPos)/2) * 2
-
-                # angle = self.calculate_angle(points.landmark[0], points.landmark[5], points.landmark[6])
-                point1 = [points.landmark[4].x, points.landmark[4].y, points.landmark[4].z]
-                point2 = [points.landmark[1].x, points.landmark[1].y, points.landmark[1].z]
-                point3 = [points.landmark[0].x, points.landmark[0].y, points.landmark[0].z]
-                angle = self.calculate_angle(point1, point2, point3)
-
-                thumbAngle = self.mapValue(angle, 120, 180, 0, 100)
-
-                # sum = self.sumSquares(indexPos, distance, angle)
-
-                self.fingerPositions.emit(thumbAngle,thumbPos , calculatedVal, middlePos, ringPos, pinkyPos)
+                self.computePoints(points)
 
             h, w, ch = color_frame.shape
             img = QImage(color_frame.data, w, h, ch * w, QImage.Format.Format_RGB888)
@@ -133,3 +102,44 @@ class CamThread(QThread):
 
         cap.release()
         sys.exit(-1)
+
+    def computePoints(self, points):
+        max = [1,1,0.95,1.0,0.95,0.6]
+        min = [0.1,0.1,0.12,0.10,0.12,0.08]
+        acrossPalm1 = self.calcDistance(points.landmark[1], points.landmark[17])
+        acrossPalm2 = self.calcDistance(points.landmark[0], points.landmark[5])
+        palmSize = (acrossPalm1 + acrossPalm2) / 2
+
+        indexdistance = self.calcDistance(points.landmark[8], points.landmark[5])
+        middledistance = self.calcDistance(points.landmark[12], points.landmark[9])
+        ringdistance = self.calcDistance(points.landmark[16], points.landmark[13])
+        pinkydistance = self.calcDistance(points.landmark[20], points.landmark[17])
+        thumbdistance = self.calcDistance(points.landmark[4], points.landmark[2])
+        thumbbasedistance = self.calcDistance(points.landmark[17], points.landmark[2])
+        
+        thumbBasePos = self.mapValue(thumbbasedistance/palmSize, min[0], max[0], 12, 104)
+        thumbPos = self.mapValue(thumbdistance/palmSize, min[1], max[1], 0, 180)
+        indexPos = self.mapValue(indexdistance/palmSize, min[2], max[2], 180, 0)
+        middlePos = self.mapValue(middledistance/palmSize, min[3], max[3], 180, 0)
+        ringPos = self.mapValue(ringdistance/palmSize, min[4], max[4], 180, 0)
+        pinkyPos = self.mapValue(pinkydistance/palmSize, min[5], max[5], 180, 0)
+
+        tip = np.array([points.landmark[8].x, points.landmark[8].y, points.landmark[8].z])
+        mcp = np.array([points.landmark[5].x, points.landmark[5].y, points.landmark[5].z])
+
+        distance = np.linalg.norm(tip - mcp) * 400
+        # calculatedVal = 180 - ((distance + indexPos)/2) * 2
+
+        # angle = self.calculate_angle(points.landmark[0], points.landmark[5], points.landmark[6])
+        point1 = [points.landmark[4].x, points.landmark[4].y, points.landmark[4].z]
+        point2 = [points.landmark[1].x, points.landmark[1].y, points.landmark[1].z]
+        point3 = [points.landmark[0].x, points.landmark[0].y, points.landmark[0].z]
+        angle = self.calculate_angle(point1, point2, point3)
+
+        # thumbAngle = self.mapValue(angle, 120, 180, 0, 100)
+
+        # sum = self.sumSquares(indexPos, distance, angle)
+        # print(pinkydistance/palmSize)
+
+        self.fingerPositions.emit(thumbBasePos, thumbPos, indexPos, middlePos, ringPos, pinkyPos)
+
