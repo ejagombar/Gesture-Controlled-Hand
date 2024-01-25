@@ -71,15 +71,16 @@ void loop() {
     // Read the first six integers
     for (int i = 0; i < 6; i++) {
       int tmp = Serial.parseInt();
+      if tmp >= 0 {
+          if (i == 0) {
+            if (tmp > 104) {tmp = 104;}
+            if (tmp < 12) {tmp = 12;}
+          } else {
+            if (tmp > 180) {tmp = 180;}
+          }
+          values[i] = tmp;
+        }
 
-      if (i == 0) {
-        if (tmp > 104) {tmp = 104;}
-        if (tmp < 12) {tmp = 12;}
-      } else {
-        if (tmp > 180) {tmp = 180;}
-        if (tmp < 0) {tmp = 0;}
-      }
-      values[i] = tmp;
       //delay(10);
     }
 
