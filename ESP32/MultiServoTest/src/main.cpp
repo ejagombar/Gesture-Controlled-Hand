@@ -18,7 +18,7 @@ CRGB leds[NUM_LEDS];
 int pos = 0;    
 int gHue= 0;    
 int values[6] = {46,90,90,90,90,90}; // Array to store servo motor values   
-int hslbColours[4]; 
+int hslbColours[3]; 
 bool setupRainbow = false;
 
 void setup() {
@@ -26,6 +26,7 @@ void setup() {
 
   FastLED.addLeds<SK6812, DATA_PIN>(leds, NUM_LEDS); 
   FastLED.setBrightness(50);
+        fill_rainbow( leds, NUM_LEDS, gHue, 40);
 }
 
 
@@ -37,24 +38,27 @@ void loop() {
   myservo.write(ring, values[4]);
   myservo.write(pinky, values[5]);
 
-    EVERY_N_MILLISECONDS( 20 ) { gHue++; }
 
-  if (hslbColours[0] > 360 && hslbColours[1] > 255 && hslbColours[2] > 255) {
-    if (setupRainbow == false) {
-        fill_rainbow( leds, NUM_LEDS, gHue, 40);
-        setupRainbow = true;
-    }
-  } else {
-    CRGB rgbColor = CHSV(hslbColours[0], hslbColours[1], hslbColours[2]);
-    fill_solid(leds, NUM_LEDS, rgbColor);
-    setupRainbow = false;
-  }
+  // if (hslbColours[0] > 255 && hslbColours[1] > 255 && hslbColours[2] > 255) {
+  //   if (setupRainbow == false) {
+  //       fill_rainbow( leds, NUM_LEDS, gHue, 40);
+  //       setupRainbow = true;
+  //   }
 
-  int brightness = hslbColours[3];
-  if (brightness < 0) {brightness = 0;}
-  if (brightness > 255) {brightness = 255;}
+    // EVERY_N_MILLISECONDS( 20 ) { gHue++; }
+    gHue++;
+  // } else {
+  //   CRGB rgbColor = CHSV(hslbColours[0], hslbColours[1], 255);
+  //   fill_solid(leds, NUM_LEDS, rgbColor);
+  //   setupRainbow = false;
+  // }
 
-  FastLED.setBrightness(brightness);
+  // int brightness = hslbColours[2];
+  // if (brightness < 0) {brightness = 0;}
+  // if (brightness > 255) {brightness = 255;}
+
+  // FastLED.setBrightness(brightness);
+  FastLED.setBrightness(255);
 
   FastLED.show();
 
@@ -71,7 +75,7 @@ void loop() {
     // Read the first six integers
     for (int i = 0; i < 6; i++) {
       int tmp = Serial.parseInt();
-      if tmp >= 0 {
+      if (tmp >= 0) {
           if (i == 0) {
             if (tmp > 104) {tmp = 104;}
             if (tmp < 12) {tmp = 12;}
@@ -93,12 +97,16 @@ void loop() {
     Serial.read(); // read the opening bracket
 
     // Read the three hsl color values
-    for (int i = 0; i < 4; i++) {
-      hslbColours[i] = Serial.parseInt();
+    for (int i = 0; i < 3; i++) {
+      int tmp = Serial.parseInt();
+
+      if (tmp >= 0) {
+            hslbColours[i] = tmp;
+        }
       //delay(10);
       
       // Check for the comma (except for the last color value)
-      if (i < 3) {
+      if (i < 2) {
         while (Serial.peek() != ',') {
           Serial.read(); // Discard any characters until the comma is found
           //delay(10);
