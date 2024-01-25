@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
 
         self.serial_port = None
         self.last_executed = 0
-        self.ledColour = [100,100]
+        self.ledColour = [100,100,100]
         self.ledBrightness = 60
         self.sendSignal.connect(self.sendPositionMessage)
 
@@ -49,18 +49,17 @@ class MainWindow(QMainWindow):
             return
         self.last_executed = current_time
         if self.serial_port is not None:
-            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledBrightness}]"
+            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
             message = f":{thumbAngle},{thumb},{index},{middle},{ring},{pinky},{colourString}"
             self.serial_port.write(message.encode())
             print(message)
 
     def sendColourMessage(self):
         if self.serial_port is not None:
-            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledBrightness}]"
+            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
             message = f":-1,-1,-1,-1,-1,-1,{colourString}"
             self.serial_port.write(message.encode())
             print(message)
-
 
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
@@ -138,7 +137,7 @@ class MainWindow(QMainWindow):
         color_dialog = QColorDialog(self)
         color = color_dialog.getColor()
         self.ui.ColourButton.setIcon(self.create_color_icon(color, self.ui.ColourButton.iconSize()))
-        self.ledColour = [int((color.hslHue()/360)*255), color.hslSaturation()]
+        self.ledColour = [color.green(), color.red(), color.blue()]
         if self.ui.CustomRadioButton.isChecked():
             self.sendColourMessage()
 

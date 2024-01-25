@@ -18,15 +18,13 @@ CRGB leds[NUM_LEDS];
 int pos = 0;    
 int gHue= 0;    
 int values[6] = {46,90,90,90,90,90}; // Array to store servo motor values   
-int hslbColours[3]; 
-bool setupRainbow = false;
+int rgbColours[4]; 
 
 void setup() {
   Serial.begin(115200); // Set the baud rate to 9600 bps
 
   FastLED.addLeds<SK6812, DATA_PIN>(leds, NUM_LEDS); 
   FastLED.setBrightness(50);
-        fill_rainbow( leds, NUM_LEDS, gHue, 40);
 }
 
 
@@ -39,26 +37,19 @@ void loop() {
   myservo.write(pinky, values[5]);
 
 
-  // if (hslbColours[0] > 255 && hslbColours[1] > 255 && hslbColours[2] > 255) {
-  //   if (setupRainbow == false) {
-  //       fill_rainbow( leds, NUM_LEDS, gHue, 40);
-  //       setupRainbow = true;
-  //   }
+  if (rgbColours[0] > 255 && rgbColours[1] > 255 && rgbColours[2] > 255) {
+    fill_rainbow( leds, NUM_LEDS, gHue, 10);
+    gHue= gHue+3;
+  } else {
+    CRGB rgb(rgbColours[0], rgbColours[1], rgbColours[2]);
+    fill_solid(leds, NUM_LEDS, rgb);
+  }
 
-    // EVERY_N_MILLISECONDS( 20 ) { gHue++; }
-    gHue++;
-  // } else {
-  //   CRGB rgbColor = CHSV(hslbColours[0], hslbColours[1], 255);
-  //   fill_solid(leds, NUM_LEDS, rgbColor);
-  //   setupRainbow = false;
-  // }
+  int brightness = rgbColours[3];
+  if (brightness < 0) {brightness = 0;}
+  if (brightness > 255) {brightness = 255;}
 
-  // int brightness = hslbColours[2];
-  // if (brightness < 0) {brightness = 0;}
-  // if (brightness > 255) {brightness = 255;}
-
-  // FastLED.setBrightness(brightness);
-  FastLED.setBrightness(255);
+  FastLED.setBrightness(brightness);
 
   FastLED.show();
 
@@ -96,17 +87,16 @@ void loop() {
 
     Serial.read(); // read the opening bracket
 
-    // Read the three hsl color values
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       int tmp = Serial.parseInt();
 
       if (tmp >= 0) {
-            hslbColours[i] = tmp;
+            rgbColours[i] = tmp;
         }
       //delay(10);
       
       // Check for the comma (except for the last color value)
-      if (i < 2) {
+      if (i < 3) {
         while (Serial.peek() != ',') {
           Serial.read(); // Discard any characters until the comma is found
           //delay(10);
