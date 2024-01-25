@@ -1,5 +1,4 @@
 /*    One Dark - https://github.com/atom/one-dark-ui    */
-Genv/
 /*    Author: Lofanmi - https://github.com/Lofanmi      */
 /*    MIT License                                       */
 
@@ -58,7 +57,7 @@ QPushButton:hover {
 
 QPushButton:pressed {
   background-color: #464c55;
-  color: white;
+  color: #ffffff;
 }
 
 QPushButton:disabled {
@@ -114,7 +113,7 @@ QTabBar::tab:selected {
   background-color: #22252C;
   border: 1px solid #464c55;
   border-bottom: none;
-  color: white;
+  color: #ffffff;
 }
 
 QToolBar {
@@ -155,14 +154,14 @@ QToolButton::menu-button:hover {
 QToolButton:checked,
 QToolButton:pressed {
   background-color: #282c34;
-  color: white;
+  color: #ffffff;
 }
 
 QMenu {
   background-color: #282c34;
   border: 1px solid #404859;
   border-radius: 6px;
-  color: white;
+  color: #ffffff;
   padding: 1px;
 }
 
@@ -197,7 +196,7 @@ QMenu::indicator {
 
 QMenuBar {
   background-color: #282c34;
-  color: white;
+  color: #ffffff;
 }
 
 QMenuBar::item {
