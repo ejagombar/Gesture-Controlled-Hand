@@ -7,6 +7,7 @@ from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtMultimedia import QMediaDevices
 from WebCamView import CamThread
 import time
+from storage import * 
 
 from ui_form import Ui_MainWindow
 
@@ -18,8 +19,10 @@ class MainWindow(QMainWindow):
     sendSignal = Signal(int, int, int, int)
     selectedCamera = Signal(int)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, config=None):
         super().__init__(parent)
+        self.config = config
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -32,7 +35,6 @@ class MainWindow(QMainWindow):
         self.ledBrightness = 60
         self.sendSignal.connect(self.sendPositionMessage)
 
-        self.ui.IPAddrLineEdit.setText("COM7")
 
         self.start()
 
@@ -74,6 +76,13 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage(f"Failed to open serial port {port_name}.")
 
     def start(self):
+
+        if self.config is not None:
+            self.ledColour = self.config.ledColour
+            self.customColour = self.config.customColour
+            self.ledBrightness = self.config.ledBrightness
+            self.ui.IPAddrLineEdit.setText(self.config.connectionAddr)
+
         self.ui.ColourButton.clicked.connect(self.show_color_picker)
 
         self.ui.actionOneDark.triggered.connect(self.set_dark_theme)
@@ -93,6 +102,7 @@ class MainWindow(QMainWindow):
         self.ui.actionShow_Tracking_Mask.setChecked(True)
         self.ui.actionShow_3D_Visualisation.setEnabled(False)
         self.setupAvailableCameras()
+
 
 
     def setupAvailableCameras(self):
@@ -174,10 +184,16 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    with open("./Themes/OneLight.qss", "r") as f:
+
+    config = LoadConfig("config.toml")
+    if config == None:
+        config = Config()
+
+    with open(config.colourSchemePath) as f:
         _style = f.read()
         app.setStyleSheet(_style)
 
-    widget = MainWindow()
+    widget = MainWindow(config)
     widget.show()
-    sys.exit(app.exec())
+    ret = app.exec()
+    sys.exit(ret)

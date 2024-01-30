@@ -1,0 +1,5 @@
+connectionAddr = ""
+ledColour = [ 0, 255, 0,]
+ledBrightness = 25
+customColour = [ 0, 255, 0,]
+colourScheme = "light"

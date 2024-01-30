@@ -1,46 +1,41 @@
 import toml
 
 class Config:
-    def __init__(self, connectionAddr, ledColour, ledBrightness, customColour, camera_index, colourScheme):
+    def __init__(self, connectionAddr = "", ledColour = [0,255,0], ledBrightness = 25, customColour = [0,255,0], colourSchemePath = "./Themes/OneLight.qss"):
         self.connectionAddr = connectionAddr
         self.ledColour = ledColour
         self.ledBrightness = ledBrightness
         self.customColour = customColour
-        self.camera_index = camera_index
-        self.colourScheme = colourScheme
+        self.colourSchemePath = colourSchemePath
 
-def load_toml_file(file_path):
+def LoadConfig(file_path):
     try:
         with open(file_path, 'r') as file:
             data = toml.load(file)
             return Config(
-                data['connectionAddr'],
-                data['ledColour'],
-                data['ledBrightness'],
-                data['customColour'],
-                data['camera_index'],
-                data['colourScheme']
+                connectionAddr = data['connectionAddr'],
+                ledColour = data['ledColour'],
+                ledBrightness = data['ledBrightness'],
+                customColour = data['customColour'],
+                colourSchemePath = data['colourSchemePath']
             )
-
-    except FileNotFoundError:
-        print(f"Error: File '{file_path}' not found.")
-        return None
+            
     except Exception as e:
         print(f"Error loading TOML file: {e}")
         return None
 
-def save_to_toml_file(file_path, my_struct):
+def SaveConfig(file_path, config):
     try:
         data = {
-            'connectionAddr': my_struct.connectionAddr,
-            'ledColour': my_struct.ledColour,
-            'ledBrightness': my_struct.ledBrightness,
-            'customColour': my_struct.customColour,
-            'camera_index': my_struct.camera_index,
-            'colourScheme': my_struct.colourScheme
+            "connectionAddr": config.connectionAddr,
+            "ledColour": config.ledColour,
+            "ledBrightness": config.ledBrightness,
+            "customColour": config.customColour,
+            "colourScheme": config.colourSchemePath
         }
         with open(file_path, 'w') as file:
             toml.dump(data, file)
-        print(f"Data successfully saved to '{file_path}'.")
+            return 0
     except Exception as e:
         print(f"Error saving to TOML file: {e}")
+        return 1
