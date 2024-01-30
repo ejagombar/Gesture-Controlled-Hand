@@ -1,12 +1,13 @@
 import toml
 
 class Config:
-    def __init__(self, connectionAddr = "", ledColour = [0,255,0], ledBrightness = 25, customColour = [0,255,0], colourSchemePath = "./Themes/OneLight.qss"):
+    def __init__(self, connectionAddr = "", ledColour = [0,255,0], ledBrightness = 25, customColour = [0,255,0], colourSchemePath = "./Themes/OneLight.qss", selectedLEDMode = 0):
         self.connectionAddr = connectionAddr
         self.ledColour = ledColour
         self.ledBrightness = ledBrightness
         self.customColour = customColour
         self.colourSchemePath = colourSchemePath
+        self.selectedLEDMode = selectedLEDMode
 
 def LoadConfig(file_path):
     try:
@@ -17,7 +18,8 @@ def LoadConfig(file_path):
                 ledColour = data['ledColour'],
                 ledBrightness = data['ledBrightness'],
                 customColour = data['customColour'],
-                colourSchemePath = data['colourSchemePath']
+                colourSchemePath = data['colourSchemePath'],
+                selectedLEDMode = data['selectedLEDMode']
             )
             
     except Exception as e:
@@ -31,7 +33,8 @@ def SaveConfig(file_path, config):
             "ledColour": config.ledColour,
             "ledBrightness": config.ledBrightness,
             "customColour": config.customColour,
-            "colourScheme": config.colourSchemePath
+            "colourSchemePath": config.colourSchemePath,
+            "selectedLEDMode": config.selectedLEDMode
         }
         with open(file_path, 'w') as file:
             toml.dump(data, file)

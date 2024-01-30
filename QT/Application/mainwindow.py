@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtCore import Qt, Slot, Signal
-from PySide6.QtGui import QImage, QPixmap, QIcon
+from PySide6.QtGui import QImage, QPixmap, QIcon, QColor
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
 from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtMultimedia import QMediaDevices
@@ -57,11 +57,16 @@ class MainWindow(QMainWindow):
             message = f":-1,-1,-1,-1,-1,-1,{colourString}"
             for _ in range(0,5):
                 self.serial_port.write(message.encode())
+            if self.config is not None:
+                self.config.ledColour = self.ledColour
+                self.config.ledBrightness = self.ledBrightness 
 
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
         self.setup_serial_port(port_name)
         self.setStatusTip("Connecting...")
+        if self.config is not None:
+            self.config.connectionAddr = port_name
 
     def setup_serial_port(self, port_name):
         self.serial_port = QSerialPort()
@@ -77,11 +82,6 @@ class MainWindow(QMainWindow):
 
     def start(self):
 
-        if self.config is not None:
-            self.ledColour = self.config.ledColour
-            self.customColour = self.config.customColour
-            self.ledBrightness = self.config.ledBrightness
-            self.ui.IPAddrLineEdit.setText(self.config.connectionAddr)
 
         self.ui.ColourButton.clicked.connect(self.show_color_picker)
 
@@ -101,6 +101,22 @@ class MainWindow(QMainWindow):
         self.ui.actionShow_Webcam_View.setChecked(True)
         self.ui.actionShow_Tracking_Mask.setChecked(True)
         self.ui.actionShow_3D_Visualisation.setEnabled(False)
+
+        if self.config is not None:
+            self.ledColour = self.config.ledColour
+            self.customColour = self.config.customColour
+            self.ledBrightness = self.config.ledBrightness
+            self.ui.IPAddrLineEdit.setText(self.config.connectionAddr)
+            colour = QColor(self.customColour[1], self.customColour[0], self.customColour[2])
+            self.ui.ColourButton.setIcon(self.create_color_icon(colour, self.ui.ColourButton.iconSize()))
+            self.ui.BrightnessSlider.setValue(self.ledBrightness)
+            ledMode = self.config.selectedLEDMode
+            if ledMode == 0:
+                self.ui.RainbowRadioButton.setChecked(True)
+            elif ledMode == 1:
+                self.ui.ReactiveRadioButton.setChecked(True)
+            else:
+                self.ui.CustomRadioButton.setChecked(True)
         self.setupAvailableCameras()
 
 
@@ -132,18 +148,24 @@ class MainWindow(QMainWindow):
         return set_camera_index
 
     def set_dark_theme(self):
-        with open("./Themes/OneDark.qss", "r") as f:
+        path = "./Themes/OneDark.qss"
+        with open(path, "r") as f:
             _style = f.read()
             self.setStyleSheet(_style)
         self.ui.actionOneLight.setChecked(False)
         self.ui.actionOneDark.setChecked(True)
+        if self.config is not None:
+            self.config.colourSchemePath = path
 
     def set_light_theme(self):
-        with open("./Themes/OneLight.qss", "r") as f:
+        path = "./Themes/OneLight.qss"
+        with open(path, "r") as f:
             _style = f.read()
             self.setStyleSheet(_style)
         self.ui.actionOneDark.setChecked(False)
         self.ui.actionOneLight.setChecked(True)
+        if self.config is not None:
+            self.config.colourSchemePath = path
 
     def show_color_picker(self):
         color_dialog = QColorDialog(self)
@@ -153,6 +175,8 @@ class MainWindow(QMainWindow):
         if self.ui.CustomRadioButton.isChecked():
             self.ledColour = self.customColour
             self.sendColourMessage()
+        if self.config is not None:
+            self.config.customColour = self.customColour
 
     def create_color_icon(self, color, size):
         pixmap = QPixmap(size)
@@ -166,13 +190,22 @@ class MainWindow(QMainWindow):
         self.sendColourMessage()
 
     def onCustomRadioButtonClicked(self):
+        if self.config is not None:
+            self.config.selectedLEDMode = 2
         self.ledColour = self.customColour
         self.sendColourMessage()
 
     def onRainbowRadioButtonClicked(self):
+        if self.config is not None:
+            self.config.selectedLEDMode = 0
         self.ledColour = [999,999,999]
         print(self.ledColour)
         self.sendColourMessage()
+
+    def onReactiveRadioButtonClicked(self):
+        if self.config is not None:
+            self.config.selectedLEDMode = 1
+
 
     @Slot(QImage)
     def setImage(self, image):
@@ -193,7 +226,9 @@ if __name__ == "__main__":
         _style = f.read()
         app.setStyleSheet(_style)
 
-    widget = MainWindow(config)
+    widget = MainWindow(None,config)
     widget.show()
     ret = app.exec()
+    SaveConfig("config.toml", config)
+    print("Exiting...")
     sys.exit(ret)
