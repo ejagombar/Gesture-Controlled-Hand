@@ -13,13 +13,6 @@ from ui_form import Ui_MainWindow
 # Important:
 # pyside6-designer form.ui && pyside6-uic form.ui -o ui_form.py
 
-
-def send_data(serial_port):
-    # This function will be called in a loop to send the data
-    data = b'test'  # Convert string to bytes
-    serial_port.write(data)
-
-
 class MainWindow(QMainWindow):
     sendSignal = Signal(int, int, int, int)
     selectedCamera = Signal(int)
@@ -38,7 +31,7 @@ class MainWindow(QMainWindow):
         self.ledBrightness = 60
         self.sendSignal.connect(self.sendPositionMessage)
 
-        self.ui.IPAddrLineEdit.setText("COM5")
+        self.ui.IPAddrLineEdit.setText("COM7")
 
         self.start()
 
@@ -48,12 +41,12 @@ class MainWindow(QMainWindow):
         current_time = time.time()
         if current_time - self.last_executed < 0.005:
             return
+
         self.last_executed = current_time
         if self.serial_port is not None:
             colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
             message = f":{thumbAngle},{thumb},{index},{middle},{ring},{pinky},{colourString}"
             self.serial_port.write(message.encode())
-            print(message)
 
     def sendColourMessage(self):
         if self.serial_port is not None:
@@ -61,7 +54,6 @@ class MainWindow(QMainWindow):
             message = f":-1,-1,-1,-1,-1,-1,{colourString}"
             for _ in range(0,5):
                 self.serial_port.write(message.encode())
-            print(message)
 
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
@@ -75,6 +67,7 @@ class MainWindow(QMainWindow):
         if self.serial_port.open(QSerialPort.OpenModeFlag.WriteOnly):
             self.statusBar().showMessage(f"Serial port {port_name} opened successfully.")
             self.serial_port.setBaudRate(QSerialPort.BaudRate.Baud115200)
+            self.ui.ConnectionStatusLabel.setText("Status: Connected")
             self.sendColourMessage()
         else:
             self.statusBar().showMessage(f"Failed to open serial port {port_name}.")
