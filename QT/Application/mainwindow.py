@@ -138,8 +138,10 @@ class MainWindow(QMainWindow):
         color = color_dialog.getColor()
         self.ui.ColourButton.setIcon(self.create_color_icon(color, self.ui.ColourButton.iconSize()))
         self.ledColour = [color.green(), color.red(), color.blue()]
+        print("made it here")
         if self.ui.CustomRadioButton.isChecked():
             self.sendColourMessage()
+            print("made it here")
 
     def create_color_icon(self, color, size):
         pixmap = QPixmap(size)

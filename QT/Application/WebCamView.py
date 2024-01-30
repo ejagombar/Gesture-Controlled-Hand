@@ -134,17 +134,5 @@ class CamThread(QThread):
         ringPos = self.mapValue(ringdistance/palmSize, min[4], max[4], 180, 0)
         pinkyPos = self.mapValue(pinkydistance/palmSize, min[5], max[5], 180, 0)
 
-        # thumbBasePosition = thumbBasePosition/palmSize
-
-        print(self.min1, self.max1)
-        if thumbBasePosition/palmSize < self.min1:
-            self.min1 = thumbBasePosition/palmSize
-
-        if thumbBasePosition/palmSize> self.max1:
-            self.max1 = thumbBasePosition/palmSize
-# 0.029330750907116024 0.11610436370364946
-
-        # print(topThumbAngle, thumbBasePosition)
-
         self.fingerPositions.emit(thumbBaseMapped, topThumbAngleMapped, indexPos, middlePos, ringPos, pinkyPos)
 
