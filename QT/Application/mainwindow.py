@@ -13,6 +13,7 @@ from ui_form import Ui_MainWindow
 # Important:
 # pyside6-designer form.ui && pyside6-uic form.ui -o ui_form.py
 
+
 class MainWindow(QMainWindow):
     sendSignal = Signal(int, int, int, int)
     selectedCamera = Signal(int)
