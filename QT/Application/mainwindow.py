@@ -66,17 +66,18 @@ class MainWindow(QMainWindow):
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
         self.setup_serial_port(port_name)
+        self.setStatusTip("Connecting...")
 
     def setup_serial_port(self, port_name):
         self.serial_port = QSerialPort()
         self.serial_port.setPortName(port_name)
 
         if self.serial_port.open(QSerialPort.OpenModeFlag.WriteOnly):
-            print(f"Serial port {port_name} opened successfully.")
+            self.statusBar().showMessage(f"Serial port {port_name} opened successfully.")
             self.serial_port.setBaudRate(QSerialPort.BaudRate.Baud115200)
             self.sendColourMessage()
         else:
-            print(f"Failed to open serial port {port_name}.")
+            self.statusBar().showMessage(f"Failed to open serial port {port_name}.")
 
     def start(self):
         self.ui.ColourButton.clicked.connect(self.show_color_picker)
@@ -88,6 +89,8 @@ class MainWindow(QMainWindow):
         self.ui.ConnectButton.clicked.connect(self.onConnectButtonClicked)
         self.ui.RainbowRadioButton.clicked.connect(self.onRainbowRadioButtonClicked)
         self.ui.CustomRadioButton.clicked.connect(self.onCustomRadioButtonClicked)
+
+        self.status_bar = self.statusBar()
 
         self.ui.actionOneLight.setChecked(True)  # Default Theme
         self.ui.RainbowRadioButton.setChecked(True)
@@ -101,7 +104,7 @@ class MainWindow(QMainWindow):
     def setupAvailableCameras(self):
         cameras = QMediaDevices.videoInputs()
         if not cameras:
-            print("No cameras found")
+            self.statusBar().showMessage(f"No cameras found.")
             return
         else:
             for cameraDevice in cameras:
@@ -109,6 +112,8 @@ class MainWindow(QMainWindow):
                 if "ir " not in cameraDevice.description().lower():
                     action = self.ui.menuSelect_Video_Device.addAction(cameraDevice.description())
                     action.triggered.connect(self.make_set_camera_index(index))
+
+                    self.statusBar().showMessage("Opened camera: " + cameraDevice.description())
 
         self.th = CamThread(self)
         self.th.finished.connect(self.close)
