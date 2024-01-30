@@ -34,10 +34,11 @@ class MainWindow(QMainWindow):
         self.serial_port = None
         self.last_executed = 0
         self.ledColour = [100,100,100]
+        self.customColour = [0,0,0]
         self.ledBrightness = 60
         self.sendSignal.connect(self.sendPositionMessage)
 
-        self.ui.IPAddrLineEdit.setText("COM7")
+        self.ui.IPAddrLineEdit.setText("COM5")
 
         self.start()
 
@@ -58,7 +59,8 @@ class MainWindow(QMainWindow):
         if self.serial_port is not None:
             colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
             message = f":-1,-1,-1,-1,-1,-1,{colourString}"
-            self.serial_port.write(message.encode())
+            for _ in range(0,5):
+                self.serial_port.write(message.encode())
             print(message)
 
     def onConnectButtonClicked(self):
@@ -72,6 +74,7 @@ class MainWindow(QMainWindow):
         if self.serial_port.open(QSerialPort.OpenModeFlag.WriteOnly):
             print(f"Serial port {port_name} opened successfully.")
             self.serial_port.setBaudRate(QSerialPort.BaudRate.Baud115200)
+            self.sendColourMessage()
         else:
             print(f"Failed to open serial port {port_name}.")
 
@@ -84,7 +87,7 @@ class MainWindow(QMainWindow):
 
         self.ui.ConnectButton.clicked.connect(self.onConnectButtonClicked)
         self.ui.RainbowRadioButton.clicked.connect(self.onRainbowRadioButtonClicked)
-        self.ui.CustomRadioButton.clicked.connect(self.sendColourMessage)
+        self.ui.CustomRadioButton.clicked.connect(self.onCustomRadioButtonClicked)
 
         self.ui.actionOneLight.setChecked(True)  # Default Theme
         self.ui.RainbowRadioButton.setChecked(True)
@@ -137,11 +140,10 @@ class MainWindow(QMainWindow):
         color_dialog = QColorDialog(self)
         color = color_dialog.getColor()
         self.ui.ColourButton.setIcon(self.create_color_icon(color, self.ui.ColourButton.iconSize()))
-        self.ledColour = [color.green(), color.red(), color.blue()]
-        print("made it here")
+        self.customColour = [color.green(), color.red(), color.blue()]
         if self.ui.CustomRadioButton.isChecked():
+            self.ledColour = self.customColour
             self.sendColourMessage()
-            print("made it here")
 
     def create_color_icon(self, color, size):
         pixmap = QPixmap(size)
@@ -154,8 +156,13 @@ class MainWindow(QMainWindow):
         self.ledBrightness = int((brightness/100)*255)
         self.sendColourMessage()
 
+    def onCustomRadioButtonClicked(self):
+        self.ledColour = self.customColour
+        self.sendColourMessage()
+
     def onRainbowRadioButtonClicked(self):
         self.ledColour = [999,999,999]
+        print(self.ledColour)
         self.sendColourMessage()
 
     @Slot(QImage)

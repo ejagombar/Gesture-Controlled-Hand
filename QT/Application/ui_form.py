@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFrame, QHBoxLayout,
-    QLabel, QLayout, QLineEdit, QMainWindow,
-    QMenu, QMenuBar, QPushButton, QRadioButton,
-    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
-    QStatusBar, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
+    QLayout, QLineEdit, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QRadioButton, QSizePolicy,
+    QSlider, QSpacerItem, QStatusBar, QTabWidget,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -179,37 +179,6 @@ class Ui_MainWindow(object):
 
         self.SettingsLayout.addWidget(self.LogLine)
 
-        self.LogLabel = QLabel(self.centralwidget)
-        self.LogLabel.setObjectName(u"LogLabel")
-        self.LogLabel.setMaximumSize(QSize(240, 16777215))
-        self.LogLabel.setFont(font)
-
-        self.SettingsLayout.addWidget(self.LogLabel)
-
-        self.LogScrollArea = QScrollArea(self.centralwidget)
-        self.LogScrollArea.setObjectName(u"LogScrollArea")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.LogScrollArea.sizePolicy().hasHeightForWidth())
-        self.LogScrollArea.setSizePolicy(sizePolicy2)
-        self.LogScrollArea.setMinimumSize(QSize(0, 200))
-        self.LogScrollArea.setMaximumSize(QSize(240, 16777215))
-        self.LogScrollArea.setFrameShadow(QFrame.Plain)
-        self.LogScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.LogScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.LogScrollArea.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
-        self.LogScrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 16, 16))
-        sizePolicy2.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy2)
-        self.scrollAreaWidgetContents.setMinimumSize(QSize(0, 0))
-        self.LogScrollArea.setWidget(self.scrollAreaWidgetContents)
-
-        self.SettingsLayout.addWidget(self.LogScrollArea)
-
         self.SettingsVerticleSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.SettingsLayout.addItem(self.SettingsVerticleSpacer)
@@ -219,11 +188,11 @@ class Ui_MainWindow(object):
 
         self.ViewsTabWidget = QTabWidget(self.centralwidget)
         self.ViewsTabWidget.setObjectName(u"ViewsTabWidget")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.ViewsTabWidget.sizePolicy().hasHeightForWidth())
-        self.ViewsTabWidget.setSizePolicy(sizePolicy3)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.ViewsTabWidget.sizePolicy().hasHeightForWidth())
+        self.ViewsTabWidget.setSizePolicy(sizePolicy2)
         self.ViewsTabWidget.setTabPosition(QTabWidget.North)
         self.ViewsTabWidget.setTabShape(QTabWidget.Rounded)
         self.ViewsTabWidget.setUsesScrollButtons(False)
@@ -236,8 +205,8 @@ class Ui_MainWindow(object):
         self.WebcamLabel = QLabel(self.WebcamTab)
         self.WebcamLabel.setObjectName(u"WebcamLabel")
         self.WebcamLabel.setGeometry(QRect(10, 10, 1241, 841))
-        sizePolicy3.setHeightForWidth(self.WebcamLabel.sizePolicy().hasHeightForWidth())
-        self.WebcamLabel.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.WebcamLabel.sizePolicy().hasHeightForWidth())
+        self.WebcamLabel.setSizePolicy(sizePolicy2)
         self.WebcamLabel.setFrameShape(QFrame.Box)
         self.ViewsTabWidget.addTab(self.WebcamTab, "")
         self.RemoteTab = QWidget()
@@ -289,6 +258,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+#if QT_CONFIG(statustip)
+        MainWindow.setStatusTip("")
+#endif // QT_CONFIG(statustip)
         self.actionShow_Webcam_View.setText(QCoreApplication.translate("MainWindow", u"Show Webcam View", None))
         self.actionShow_Tracking_Mask.setText(QCoreApplication.translate("MainWindow", u"Show Tracking Mask", None))
         self.actionShow_3D_Visualisation.setText(QCoreApplication.translate("MainWindow", u"Show 3D Visualisation", None))
@@ -301,7 +273,7 @@ class Ui_MainWindow(object):
         self.actionDefault2.setText(QCoreApplication.translate("MainWindow", u"Default", None))
         self.ConnectionStatusLabel.setText(QCoreApplication.translate("MainWindow", u"Status: Disconnected", None))
         self.IPAddrLineEdit.setInputMask("")
-        self.IPAddrLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"IP Address", u"IP Address"))
+        self.IPAddrLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"IP Address or USB Port", u"IP Address"))
         self.ConnectButton.setText(QCoreApplication.translate("MainWindow", u"Connect", None))
         self.LEDColourLabel.setText(QCoreApplication.translate("MainWindow", u"LED Colour", None))
         self.RainbowRadioButton.setText(QCoreApplication.translate("MainWindow", u"Rainbow", None))
@@ -309,7 +281,6 @@ class Ui_MainWindow(object):
         self.CustomRadioButton.setText(QCoreApplication.translate("MainWindow", u"Custom Colour", None))
         self.ColourButton.setText(QCoreApplication.translate("MainWindow", u"Select Colour", None))
         self.LEDBrightnessLabel.setText(QCoreApplication.translate("MainWindow", u"LED Brightness: 25%", None))
-        self.LogLabel.setText(QCoreApplication.translate("MainWindow", u"Log:", None))
         self.WebcamLabel.setText("")
         self.ViewsTabWidget.setTabText(self.ViewsTabWidget.indexOf(self.WebcamTab), QCoreApplication.translate("MainWindow", u"Webcam", None))
         self.ViewsTabWidget.setTabText(self.ViewsTabWidget.indexOf(self.RemoteTab), QCoreApplication.translate("MainWindow", u"Robot Cam", None))
