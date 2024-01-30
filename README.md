@@ -1,5 +1,5 @@
 # Gesture-Control-Hand
-This project is part for my Masters, where I am building a low-cost, all-in-one robitic hand, capable of being controlled via gesture controll over the internet in real time. 
+This project is part for my Masters, where I am building a low-cost, all-in-one robitic hand, capable of being controlled via gesture controll over the internet in real time. Scroll down for demo.
 
 ## Project Technical Overview
 ![ProjectDiagram](https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/3519acfa-fe36-4d3a-9b0f-c322262c6780)
