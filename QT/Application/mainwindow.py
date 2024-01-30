@@ -59,7 +59,6 @@ class MainWindow(QMainWindow):
                 self.serial_port.write(message.encode())
             if self.config is not None:
                 self.config.ledColour = self.ledColour
-                self.config.ledBrightness = self.ledBrightness 
 
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
@@ -188,6 +187,8 @@ class MainWindow(QMainWindow):
         self.ui.LEDBrightnessLabel.setText("LED Brightness: " + str(brightness) + "%")
         self.ledBrightness = int((brightness/100)*255)
         self.sendColourMessage()
+        if self.config is not None:
+            self.config.ledBrightness = brightness
 
     def onCustomRadioButtonClicked(self):
         if self.config is not None:
