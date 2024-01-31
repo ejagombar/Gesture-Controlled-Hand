@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         self.camera_index = None
-
         self.serial_port = None
         self.last_executed = 0
         self.ledColour = [100,100,100]
@@ -94,7 +93,6 @@ class MainWindow(QMainWindow):
 
         self.status_bar = self.statusBar()
 
-        self.ui.actionOneLight.setChecked(True)  # Default Theme
         self.ui.RainbowRadioButton.setChecked(True)
         self.ui.BrightnessSlider.setValue(25)
         self.ui.actionShow_Webcam_View.setChecked(True)
@@ -116,6 +114,12 @@ class MainWindow(QMainWindow):
                 self.ui.ReactiveRadioButton.setChecked(True)
             else:
                 self.ui.CustomRadioButton.setChecked(True)
+
+            if "light" in self.config.colourSchemePath.lower():
+                self.ui.actionOneLight.setChecked(True)  # Default Theme
+            else:   
+                self.ui.actionOneDark.setChecked(True)
+                
         self.setupAvailableCameras()
 
 

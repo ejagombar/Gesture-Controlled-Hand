@@ -1,6 +1,6 @@
 connectionAddr = "COM7"
 ledColour = [ 999, 999, 999,]
-ledBrightness = 137
+ledBrightness = 90
 customColour = [ 255, 38, 0,]
 colourSchemePath = "./Themes/OneDark.qss"
 selectedLEDMode = 0
