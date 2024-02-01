@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
         self.ledColour = [100,100,100]
         self.customColour = [0,0,0]
         self.ledBrightness = 60
+        self.setWindowTitle("Gesture Control")
         self.sendSignal.connect(self.sendPositionMessage)
 
 
@@ -49,6 +50,12 @@ class MainWindow(QMainWindow):
             colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
             message = f":{thumbAngle},{thumb},{index},{middle},{ring},{pinky},{colourString}"
             self.serial_port.write(message.encode())
+        self.ui.Progress_Thumb.setValue(thumb)
+        self.ui.Progress_ThumbBase.setValue(104-thumbAngle)
+        self.ui.Progress_Index.setValue(index)
+        self.ui.Progress_Middle.setValue(middle)
+        self.ui.Progress_Ring.setValue(ring)
+        self.ui.Progress_Pinky.setValue(pinky)
 
     def sendColourMessage(self):
         if self.serial_port is not None:
@@ -116,8 +123,8 @@ class MainWindow(QMainWindow):
                 self.ui.CustomRadioButton.setChecked(True)
 
             if "light" in self.config.colourSchemePath.lower():
-                self.ui.actionOneLight.setChecked(True)  # Default Theme
-            else:   
+                self.ui.actionOneLight.setChecked(True) 
+            if "dark" in self.config.colourSchemePath.lower():
                 self.ui.actionOneDark.setChecked(True)
                 
         self.setupAvailableCameras()

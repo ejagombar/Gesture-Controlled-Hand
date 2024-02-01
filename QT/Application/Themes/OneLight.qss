@@ -363,3 +363,19 @@ QSlider::handle:horizontal {
   margin-bottom: -3px;
   border-radius: 8px;
 }
+
+QProgressBar {
+  border: 1px solid #dde3eb;
+  text-align: center;
+  color: #333333;
+  border-radius: 8px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+QProgressBar::chunk {
+  background: #6ca2e3; /* Adjust as needed */
+  width: 1px; /* Adjust as needed */
+  margin: 0px; /* Adjust as needed */
+  border-radius: 8px;
+}

@@ -179,57 +179,39 @@ class Ui_MainWindow(object):
 
         self.SettingsLayout.addWidget(self.LogLine)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 1, QSizePolicy.Minimum, QSizePolicy.Fixed)
-
-        self.SettingsLayout.addItem(self.verticalSpacer_3)
-
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
-        self.label.setFont(font)
-
-        self.SettingsLayout.addWidget(self.label)
-
         self.Progress_Index = QProgressBar(self.centralwidget)
         self.Progress_Index.setObjectName(u"Progress_Index")
-        self.Progress_Index.setMaximum(180)
-        self.Progress_Index.setValue(0)
+        self.Progress_Index.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_Index)
 
         self.Progress_Middle = QProgressBar(self.centralwidget)
         self.Progress_Middle.setObjectName(u"Progress_Middle")
-        self.Progress_Middle.setMaximum(180)
-        self.Progress_Middle.setValue(0)
+        self.Progress_Middle.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_Middle)
 
         self.Progress_Ring = QProgressBar(self.centralwidget)
         self.Progress_Ring.setObjectName(u"Progress_Ring")
-        self.Progress_Ring.setMaximum(180)
-        self.Progress_Ring.setValue(0)
+        self.Progress_Ring.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_Ring)
 
         self.Progress_Pinky = QProgressBar(self.centralwidget)
         self.Progress_Pinky.setObjectName(u"Progress_Pinky")
-        self.Progress_Pinky.setMaximum(180)
-        self.Progress_Pinky.setValue(0)
+        self.Progress_Pinky.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_Pinky)
 
         self.Progress_Thumb = QProgressBar(self.centralwidget)
         self.Progress_Thumb.setObjectName(u"Progress_Thumb")
-        self.Progress_Thumb.setMinimum(0)
-        self.Progress_Thumb.setMaximum(180)
-        self.Progress_Thumb.setValue(0)
+        self.Progress_Thumb.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_Thumb)
 
         self.Progress_ThumbBase = QProgressBar(self.centralwidget)
         self.Progress_ThumbBase.setObjectName(u"Progress_ThumbBase")
-        self.Progress_ThumbBase.setMinimum(12)
-        self.Progress_ThumbBase.setMaximum(104)
-        self.Progress_ThumbBase.setValue(12)
+        self.Progress_ThumbBase.setValue(24)
 
         self.SettingsLayout.addWidget(self.Progress_ThumbBase)
 
@@ -335,13 +317,6 @@ class Ui_MainWindow(object):
         self.CustomRadioButton.setText(QCoreApplication.translate("MainWindow", u"Custom Colour", None))
         self.ColourButton.setText(QCoreApplication.translate("MainWindow", u"Select Colour", None))
         self.LEDBrightnessLabel.setText(QCoreApplication.translate("MainWindow", u"LED Brightness: 25%", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Finger Actuation", None))
-        self.Progress_Index.setFormat(QCoreApplication.translate("MainWindow", u"Index", None))
-        self.Progress_Middle.setFormat(QCoreApplication.translate("MainWindow", u"Middle", None))
-        self.Progress_Ring.setFormat(QCoreApplication.translate("MainWindow", u"Ring", None))
-        self.Progress_Pinky.setFormat(QCoreApplication.translate("MainWindow", u"Pinky", None))
-        self.Progress_Thumb.setFormat(QCoreApplication.translate("MainWindow", u"Thumb", None))
-        self.Progress_ThumbBase.setFormat(QCoreApplication.translate("MainWindow", u"Thumb Base", None))
         self.WebcamLabel.setText("")
         self.ViewsTabWidget.setTabText(self.ViewsTabWidget.indexOf(self.WebcamTab), QCoreApplication.translate("MainWindow", u"Webcam", None))
         self.ViewsTabWidget.setTabText(self.ViewsTabWidget.indexOf(self.RemoteTab), QCoreApplication.translate("MainWindow", u"Robot Cam", None))
