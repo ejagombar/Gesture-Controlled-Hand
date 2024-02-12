@@ -3,8 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net"
 	"os"
+
+	"github.com/tarm/serial"
 )
 
 type FingerData struct {
@@ -22,8 +25,8 @@ type FingerData struct {
 
 func main() {
 	arguments := os.Args
-	if len(arguments) == 1 {
-		fmt.Println("Please provide host:port.")
+	if len(arguments) < 2 {
+		fmt.Println("Please provide host:port SerialPort.")
 		return
 	}
 
@@ -48,7 +51,7 @@ func main() {
 		return
 	}
 
-	go listen(conn)
+	go listen(conn, arguments[2])
 
 	for {
 		reader := bufio.NewReader(os.Stdin)
@@ -67,8 +70,6 @@ func main() {
 
 func unpackData(buffer []byte) (*FingerData, error) {
 	var receivedData FingerData
-	print("Buffer: ", buffer, "\n")
-	print(string(buffer), "\n")
 
 	if len(buffer) < 13 {
 		return nil, fmt.Errorf("Buffer too short")
@@ -95,7 +96,13 @@ func checkSumMatch(fingerData FingerData) bool {
 	return sum == int(fingerData.checkSum)
 }
 
-func listen(conn *net.UDPConn) {
+func listen(conn *net.UDPConn, port string) {
+	c := &serial.Config{Name: port, Baud: 115200}
+	s, err := serial.OpenPort(c)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for {
 		buffer := make([]byte, 1024)
 		n, _, err := conn.ReadFromUDP(buffer)
@@ -124,7 +131,14 @@ func listen(conn *net.UDPConn) {
 			print("Led Colour: ", received.LedColour[0], received.LedColour[1], received.LedColour[2], "\n")
 			print("Led Brightness: ", received.LedBrightness, "\n")
 			print("Servo Data: ", received.ServoData, "\n")
-		}
 
+			data := []byte{received.ThumbAngle, received.Thumb, received.Index, received.Middle, received.Ring, received.Pinky, received.LedColour[0], received.LedColour[1], received.LedColour[2], received.LedBrightness, received.ServoData}
+
+			_, err = s.Write(data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+		}
 	}
 }
