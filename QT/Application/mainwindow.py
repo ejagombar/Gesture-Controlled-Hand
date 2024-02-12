@@ -15,6 +15,7 @@ from ui_form import Ui_MainWindow
 # pyside6-designer form.ui && pyside6-uic form.ui -o ui_form.py
 
 
+# nase evalatiion
 class MainWindow(QMainWindow):
     sendSignal = Signal(int, int, int, int)
     selectedCamera = Signal(int)

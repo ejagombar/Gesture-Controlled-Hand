@@ -64,8 +64,3 @@ func listen(conn *net.UDPConn) {
 		fmt.Println("Received:", received)
 	}
 }
-
-root@wireguard:~# cat /etc/wireguard/public.key
-ohrkNSBg7QCguRPZ1NgaWLc1NWtqusqzz2wCeGl3Cgk=
-root@wireguard:~# cat /etc/wireguard/private.key
-YJlE+V1ejaBo8+rq+xeAH9S/IK/OCz758m5mHUsTaU0=
