@@ -7,6 +7,7 @@ from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtMultimedia import QMediaDevices
 from WebCamView import CamThread
 import time
+import struct
 from storage import * 
 
 from ui_form import Ui_MainWindow
@@ -36,7 +37,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Gesture Control")
         self.sendSignal.connect(self.sendPositionMessage)
 
-
         self.start()
 
 
@@ -48,9 +48,9 @@ class MainWindow(QMainWindow):
 
         self.last_executed = current_time
         if self.serial_port is not None:
-            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
-            message = f":{thumbAngle},{thumb},{index},{middle},{ring},{pinky},{colourString}"
-            self.serial_port.write(message.encode())
+            message = struct.pack('@11B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 1)
+            self.serial_port.write(message)
+
         self.ui.Progress_Thumb.setValue(thumb)
         self.ui.Progress_ThumbBase.setValue(104-thumbAngle)
         self.ui.Progress_Index.setValue(index)
@@ -60,10 +60,9 @@ class MainWindow(QMainWindow):
 
     def sendColourMessage(self):
         if self.serial_port is not None:
-            colourString = f"[{self.ledColour[0]},{self.ledColour[1]},{self.ledColour[2]},{self.ledBrightness}]"
-            message = f":-1,-1,-1,-1,-1,-1,{colourString}"
+            message = struct.pack('@11B',0,0,0,0,0,0,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 0)
             for _ in range(0,5):
-                self.serial_port.write(message.encode())
+                self.serial_port.write(message)
             if self.config is not None:
                 self.config.ledColour = self.ledColour
 
@@ -211,7 +210,7 @@ class MainWindow(QMainWindow):
     def onRainbowRadioButtonClicked(self):
         if self.config is not None:
             self.config.selectedLEDMode = 0
-        self.ledColour = [999,999,999]
+        self.ledColour = [1,1,1]
         print(self.ledColour)
         self.sendColourMessage()
 

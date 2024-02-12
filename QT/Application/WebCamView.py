@@ -105,6 +105,13 @@ class CamThread(QThread):
         cap.release()
         sys.exit(-1)
 
+    def capServoValue(self, min, max, value):
+        if value > max:
+            return max
+        if value < min:
+            return min
+        return value
+
     def computePoints(self, points):
         max = [23,1.36,0.9,1.0,0.95,0.6]
         min = [0.74,0.34,0.16,0.10,0.12,0.08]
@@ -133,6 +140,13 @@ class CamThread(QThread):
         middlePos = self.mapValue(middledistance/palmSize, min[3], max[3], 180, 0)
         ringPos = self.mapValue(ringdistance/palmSize, min[4], max[4], 180, 0)
         pinkyPos = self.mapValue(pinkydistance/palmSize, min[5], max[5], 180, 0)
+
+        topThumbAngleMapped = self.capServoValue(0, 180, topThumbAngleMapped) 
+        thumbBaseMapped = self.capServoValue(12, 104, thumbBaseMapped)
+        indexPos = self.capServoValue(0, 180, indexPos)
+        middlePos = self.capServoValue(0, 180, middlePos)
+        ringPos = self.capServoValue(0, 180, ringPos)
+        pinkyPos = self.capServoValue(0, 180, pinkyPos)
 
         self.fingerPositions.emit(thumbBaseMapped, topThumbAngleMapped, indexPos, middlePos, ringPos, pinkyPos)
 

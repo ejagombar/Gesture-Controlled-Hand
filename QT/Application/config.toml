@@ -1,6 +1,6 @@
 connectionAddr = "COM5"
-ledColour = [ 255, 115, 0,]
+ledColour = [ 1, 1, 1,]
 ledBrightness = 56
-customColour = [ 255, 115, 0,]
-colourSchemePath = "./Themes/OneLight.qss"
-selectedLEDMode = 2
+customColour = [ 0, 255, 0,]
+colourSchemePath = "./Themes/OneDark.qss"
+selectedLEDMode = 0
