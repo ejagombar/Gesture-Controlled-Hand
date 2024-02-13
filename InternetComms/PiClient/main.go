@@ -45,7 +45,7 @@ func main() {
 	defer conn.Close()
 
 	// Identify as a sender
-	_, err = conn.Write([]byte("client1"))
+	_, err = conn.Write([]byte("client2"))
 	if err != nil {
 		fmt.Println("Error identifying as a sender:", err)
 		return

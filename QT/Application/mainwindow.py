@@ -1,10 +1,11 @@
 import sys
 
-from PySide6.QtCore import Qt, Slot, Signal
+from PySide6.QtCore import Qt, Slot, Signal, QRect, QUrl
 from PySide6.QtGui import QImage, QPixmap, QIcon, QColor
 from PySide6.QtWidgets import QApplication, QMainWindow, QColorDialog
 from PySide6.QtSerialPort import QSerialPort
-from PySide6.QtMultimedia import QMediaDevices
+from PySide6.QtMultimedia import QMediaDevices, QMediaPlayer
+from PySide6.QtMultimediaWidgets import QVideoWidget
 from WebCamView import CamThread
 import time
 import struct
@@ -134,6 +135,19 @@ class MainWindow(QMainWindow):
         self.ui.actionShow_Webcam_View.setChecked(True)
         self.ui.actionShow_Tracking_Mask.setChecked(True)
         self.ui.actionShow_3D_Visualisation.setEnabled(False)
+
+        # self.video_widget = QVideoWidget(self.ui.RemoteTab)
+        # self.media_player = QMediaPlayer()
+        # self.video_widget.setGeometry(QRect(10, 10, 1241, 841))
+        # self.media_player.setVideoOutput(self.video_widget)
+        #
+        # url = QUrl("rtmp://192.168.50.235:1935/live/test")
+        #
+        # # content = QMediaContent(url)    
+        #
+        # self.media_player.setSource(url)
+        # self.media_player.play()
+
 
         if self.config is not None:
             self.ledColour = self.config.ledColour
