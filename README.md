@@ -18,7 +18,8 @@ This project is part for my Masters, where I am building a low-cost, all-in-one 
 
 https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/56474491-1496-44e8-9ca9-bb5c1d3c240b
 
-If the video doesnt work, it can be viewed ![here.](https://www.youtube.com/watch?v=kY19f_uoSKw)
+If the video doesnt work, it can be viewed [here.](https://www.youtube.com/watch?v=kY19f_uoSKw)
+
 The communication now works over UDP.
 
 
