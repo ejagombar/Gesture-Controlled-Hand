@@ -8,6 +8,7 @@ from PySide6.QtMultimedia import QMediaDevices
 from WebCamView import CamThread
 import time
 import struct
+import socket
 from storage import * 
 
 from ui_form import Ui_MainWindow
@@ -30,6 +31,7 @@ class MainWindow(QMainWindow):
 
         self.camera_index = None
         self.serial_port = None
+        self.udp_conn = None
         self.last_executed = 0
         self.ledColour = [100,100,100]
         self.customColour = [0,0,0]
@@ -47,9 +49,13 @@ class MainWindow(QMainWindow):
             return
 
         self.last_executed = current_time
+
+        message = struct.pack('@11B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 1)
         if self.serial_port is not None:
-            message = struct.pack('@11B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 1)
             self.serial_port.write(message)
+
+        if self.udp_conn is not None:
+            self.udp_conn.sendall(message)
 
         self.ui.Progress_Thumb.setValue(thumb)
         self.ui.Progress_ThumbBase.setValue(104-thumbAngle)
@@ -66,9 +72,32 @@ class MainWindow(QMainWindow):
             if self.config is not None:
                 self.config.ledColour = self.ledColour
 
+    def setup_tcp_connection(self, ip_addr):
+        serverAddr = None;
+        
+        try:
+            serverAddr = socket.getaddrinfo(ip_addr.split(":")[0], int(ip_addr.split(":")[1]), socket.AF_INET, socket.SOCK_DGRAM)[0][4]
+        except socket.gaierror as e:
+            print("Error resolving server address:", e)
+            return
+
+        try:
+            self.udp_conn = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.udp_conn.connect(serverAddr)
+
+            self.udp_conn.sendall(b"client1")
+
+        except socket.error as e:
+            print("Error connecting to server:", e)
+
     def onConnectButtonClicked(self):
         port_name = self.ui.IPAddrLineEdit.text()
-        self.setup_serial_port(port_name)
+
+        if "." in port_name:
+            self.setup_tcp_connection(port_name)
+        else:
+            self.setup_serial_port(port_name)
+
         self.setStatusTip("Connecting...")
         if self.config is not None:
             self.config.connectionAddr = port_name
