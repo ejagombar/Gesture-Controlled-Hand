@@ -35,7 +35,7 @@ func main() {
 		return
 	}
 
-	go listen(conn)
+	// go listen(conn)
 
 	for {
 		reader := bufio.NewReader(os.Stdin)
