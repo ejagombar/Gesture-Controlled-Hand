@@ -11,7 +11,11 @@ This project is part for my Masters, where I am building a low-cost, all-in-one 
 6)	Client desktop application. This will run on the user’s PC and will handle the computer vision aspect of project. The user will require a PC or laptop with a webcam to capture the gestures. This movement data will be sent to the SBC over the network. At the same time, the video stream from the SBC will be displayed in the desktop application to allow the user to see the real-time movements of the robotic hand.
 
 # Early Demonstration
-https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/190bceea-afbb-4671-b64c-423320da7371
+
+
+https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/6b47b29c-85d9-42bd-b2fd-cb56680ebbef
+
+
 
 Not mimicing perfectly yet, due to issues with the USB communication between the computer and hand. Internet connection has also not yet been implemented. 
 
