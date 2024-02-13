@@ -1,4 +1,4 @@
-connectionAddr = "COM5"
+connectionAddr = "home.eagombar.uk:1200"
 ledColour = [ 1, 1, 1,]
 ledBrightness = 56
 customColour = [ 0, 255, 0,]
