@@ -51,7 +51,10 @@ class MainWindow(QMainWindow):
 
         self.last_executed = current_time
 
-        message = struct.pack('@11B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 1)
+        checkSum = thumbAngle + thumb + index + middle + ring + pinky
+        buffer = struct.pack('>H', checkSum)
+
+        message = struct.pack('@13B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness,buffer[0],buffer[1], 1)
         if self.serial_port is not None:
             self.serial_port.write(message)
 
