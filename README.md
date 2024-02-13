@@ -13,7 +13,11 @@ This project is part for my Masters, where I am building a low-cost, all-in-one 
 # Early Demonstration
 
 
-https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/6b47b29c-85d9-42bd-b2fd-cb56680ebbef
+
+
+
+https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/56474491-1496-44e8-9ca9-bb5c1d3c240b
+
 
 
 
