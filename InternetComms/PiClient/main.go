@@ -51,7 +51,14 @@ func main() {
 		return
 	}
 
-	go listen(conn, arguments[2])
+	c := &serial.Config{Name: arguments[2], Baud: 115200}
+	s, err := serial.OpenPort(c)
+	if err != nil {
+		log.Fatal(err)
+        return
+	}
+
+    go listen(conn, s)
 
 	for {
 		reader := bufio.NewReader(os.Stdin)
@@ -96,20 +103,13 @@ func checkSumMatch(fingerData FingerData) bool {
 	return sum == int(fingerData.checkSum)
 }
 
-func listen(conn *net.UDPConn, port string) {
-	c := &serial.Config{Name: port, Baud: 115200}
-	s, err := serial.OpenPort(c)
-	if err != nil {
-		log.Fatal(err)
-	}
+func listen(conn *net.UDPConn, s *serial.Port) error {
 
 	for {
 		buffer := make([]byte, 1024)
 		n, _, err := conn.ReadFromUDP(buffer)
 		if err != nil {
 			fmt.Println("Error reading from server:", err)
-			return
-
 		}
 		received, err := unpackData(buffer[:n])
 		if err != nil {
