@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self.ledColour = [100,100,100]
         self.customColour = [0,0,0]
         self.ledBrightness = 60
-        self.setWindowTitle("Gesture Control")
+        self.setWindowTitle("Gesture Client")
         self.sendSignal.connect(self.sendPositionMessage)
 
         self.start()
@@ -54,11 +54,12 @@ class MainWindow(QMainWindow):
         checkSum = thumbAngle + thumb + index + middle + ring + pinky
         buffer = struct.pack('>H', checkSum)
 
-        message = struct.pack('@13B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness,buffer[0],buffer[1], 1)
         if self.serial_port is not None:
+            message = struct.pack('@11B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 1)
             self.serial_port.write(message)
 
         if self.udp_conn is not None:
+            message = struct.pack('@13B',thumbAngle,thumb,index,middle,ring,pinky,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness,buffer[0],buffer[1], 1)
             self.udp_conn.sendall(message)
 
         self.ui.Progress_Thumb.setValue(thumb)
@@ -69,12 +70,16 @@ class MainWindow(QMainWindow):
         self.ui.Progress_Pinky.setValue(pinky)
 
     def sendColourMessage(self):
-        if self.serial_port is not None:
-            message = struct.pack('@11B',0,0,0,0,0,0,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 0)
-            for _ in range(0,5):
+        message = struct.pack('@11B',0,0,0,0,0,0,self.ledColour[0],self.ledColour[1],self.ledColour[2],self.ledBrightness, 0)
+        for _ in range(0,5):
+            if self.serial_port is not None:
                 self.serial_port.write(message)
-            if self.config is not None:
-                self.config.ledColour = self.ledColour
+
+            if self.udp_conn is not None:
+                self.udp_conn.sendall(message)
+
+        if self.config is not None:
+            self.config.ledColour = self.ledColour
 
     def setup_tcp_connection(self, ip_addr):
         serverAddr = None;
