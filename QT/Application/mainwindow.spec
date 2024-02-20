@@ -17,7 +17,10 @@ a = Analysis(
     excludes=[],
     noarchive=False,
 )
-a.datas += [('logo.ico','C:\Users\ejago\Repos\Work\Gesture-Control-Hand\QT\Application\Assets\logo.ico','DATA')]
+
+a.datas+=[('logo.ico',r'C:\Users\ejago\Repos\Work\Gesture-Control-Hand\QT\Application\Assets\logo.ico','DATA')]
+a.datas += Tree('.\\Themes', prefix='.\\')
+
 pyz = PYZ(a.pure)
 
 mediapipe_tree = Tree(get_mediapipe_path(), prefix='mediapipe', excludes=["*.pyc"])
@@ -34,14 +37,15 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='C:\Users\ejago\Repos\Work\Gesture-Control-Hand\QT\Application\Assets\logo.ico')
-)
+    icon=r'C:\Users\ejago\Repos\Work\Gesture-Control-Hand\QT\Application\Assets\logo.ico',
+    )
+
 coll = COLLECT(
     exe,
     a.binaries,
