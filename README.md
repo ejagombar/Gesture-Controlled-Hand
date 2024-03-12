@@ -10,13 +10,9 @@ This project is part for my Masters, where I am building a low-cost, all-in-one 
 5)	Initially, IP addresses will be used so that the client is able connect to the SBC. A stretch goal of this project is to allow access to the robot from anywhere with an internet connection and to facilitate this, a server is needed to manage the connection. This server could be hosted using a cloud provider such as Azure and AWS or hosted locally.
 6)	Client desktop application. This will run on the user’s PC and will handle the computer vision aspect of project. The user will require a PC or laptop with a webcam to capture the gestures. This movement data will be sent to the SBC over the network. At the same time, the video stream from the SBC will be displayed in the desktop application to allow the user to see the real-time movements of the robotic hand.
 
-# Early Demonstration
+# Demonstration
 
-
-
-
-
-https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/56474491-1496-44e8-9ca9-bb5c1d3c240b
+https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/d711a696-2b24-48bc-bd65-63e294af9d6f
 
 If the video doesnt work, it can be viewed [here.](https://www.youtube.com/watch?v=kY19f_uoSKw)
 
