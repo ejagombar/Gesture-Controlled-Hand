@@ -1,5 +1,5 @@
 # Gesture-Control-Hand
-This project is part for my Masters, where I am building a low-cost, all-in-one robitic hand, capable of being controlled via gesture controll over the internet in real time. Scroll down for demo.
+This is my Masters final year individual project, where I am building a low-cost, all-in-one robitic hand, capable of being controlled via gesture controll over the internet in real time. Scroll down for demo.
 
 ## Project Technical Overview
 ![ProjectDiagram](https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/3519acfa-fe36-4d3a-9b0f-c322262c6780)
@@ -13,8 +13,6 @@ This project is part for my Masters, where I am building a low-cost, all-in-one 
 # Demonstration
 
 https://github.com/ejagombar/Gesture-Controlled-Hand/assets/77460324/d711a696-2b24-48bc-bd65-63e294af9d6f
-
-If the video doesnt work, it can be viewed [here.](https://www.youtube.com/watch?v=kY19f_uoSKw)
 
 The communication now works over UDP.
 
